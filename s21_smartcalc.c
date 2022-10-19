@@ -6,6 +6,12 @@ typedef struct N {
   struct N* next;
 } N;
 
+typedef struct Node_stack {
+  double value;
+  int priority;
+  struct Node_stack* next;
+} stack;
+
 int validator(const char* str) {
   int errcode = 0;
   int operand = 0, dot = 0, i = 0;
@@ -47,6 +53,12 @@ N* peek(N** head) {
     exit(2);
   }
   return *head;
+}
+
+stack *push_my(stack *head, double value, int prior) {
+  
+
+  return head;
 }
 
 int is_operator(char src_string) {
