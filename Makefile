@@ -5,4 +5,4 @@ all:
 g:
 	git add .
 	git commit -m"develop-s21_smartcalc.c"
-	git push origin develop
+	git push origin leftrana
