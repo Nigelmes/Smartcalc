@@ -87,7 +87,7 @@ int buffering_number(const char* src_string, char* out) {
 }
 
 int position_counter(char src_string) {
-  char* operators = "+-/*^%()@ABCDEFGH";
+  char* operators = "+-/*%^@ABCDEFGH()";
   int counter = 0;
   while(operators[counter]) {
     if(operators[counter] == src_string) {
@@ -99,15 +99,29 @@ int position_counter(char src_string) {
 
 }
 
+/*  +,-
+*,/
+^
+cos,sin,tg,ctg,ln,log,!
+()
+
+То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
+Корень - это частный случай степени. */
+
+
 int priority_check(char src_string) {
  int prior = 0;
   int position_num = position_counter(src_string);
-  if (position_num > 8)
+  if (position_num > 15)
+    prior = 5;
+  else if(position_num > 6)
+    prior = 4;
+  else if(position_num > 5)
     prior = 3;
-  else if(position_num > 3)
-    prior = 4;
-  else if(position_num > 1)
-    prior = 4;
+  else if(position_num > 2)
+    prior = 2;
+  else if(position_num >= 1)
+    prior = 1;
   return prior;
 }
 
