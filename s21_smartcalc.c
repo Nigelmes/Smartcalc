@@ -86,7 +86,7 @@ int buffering_number(const char* src_string, char* out) {
   return i;
 }
 
-int priority_check(char src_string){
+int priority_check(char src_string) {
  return 1;
 }
 
@@ -113,14 +113,16 @@ stack_type * parser(const char* calculation_src) {
 
 void print_from_node(stack_type* stack1) {
   stack_type * Ptrack = stack1;
+  printf("\n");
   while(Ptrack){
     if(Ptrack->priority) {
-      printf("%c", (char)Ptrack->value);
+      printf(" oper%c", (char)Ptrack->value);
     } else {
       printf(" %.2lf", Ptrack->value);
     }
     Ptrack = Ptrack->next;
   }
+  printf("\n");
 }
 
 int calc(const char* calculation_src) {
