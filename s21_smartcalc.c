@@ -86,16 +86,37 @@ int buffering_number(const char* src_string, char* out) {
   return i;
 }
 
+int position_counter(char src_string) {
+  char* operators = "+-/*^%()@ABCDEFGH";
+  int counter = 0;
+  while(operators[counter]) {
+    if(operators[counter] == src_string) {
+      counter++;
+      break;
+    }
+    counter++;
+  }
+
+}
+
 int priority_check(char src_string) {
- return 1;
+ int prior = 0;
+  int position_num = position_counter(src_string);
+  if (position_num > 8)
+    prior = 3;
+  else if(position_num > 3)
+    prior = 4;
+  else if(position_num > 1)
+    prior = 4;
+  return prior;
 }
 
 stack_type * parser(const char* calculation_src) {
   int i = 0;
   stack_type* stack1 = NULL;
   while (calculation_src[i]) {
-    if (is_operator(calculation_src[i])) {
-      int priority = priority_check(calculation_src[i]);
+    int priority = priority_check(calculation_src[i]);
+    if (priority) {
       stack1 = push_my(stack1, calculation_src[i], priority);
       printf(" oper%c", (char)stack1->value);
       i++;
@@ -126,8 +147,7 @@ void print_from_node(stack_type* stack1) {
 }
 
 int calc(const char* calculation_src) {
-  stack_type* stack1 = NULL;
-  stack1 = parser(calculation_src);
+  stack_type* stack1 = parser(calculation_src);
   print_from_node(stack1);
   return 0;
 }
