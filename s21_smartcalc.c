@@ -10,7 +10,7 @@ typedef struct Node_stack {
   double value;
   int priority;
   struct Node_stack* next;
-} stack;
+} stack_type;
 
 int validator(const char* str) {
   int errcode = 0;
@@ -55,10 +55,15 @@ N* peek(N** head) {
   return *head;
 }
 
-stack *push_my(stack *head, double value, int prior) {
-  
-
-  return head;
+stack_type *push_my(stack_type *plist , double value, int priority) {
+  stack_type *Part = malloc(sizeof(stack_type));
+  if (Part == NULL) {
+    exit(1);
+  }
+  Part->next = plist;
+  Part->priority = priority;
+  Part->value = value;
+  return Part;
 }
 
 int is_operator(char src_string) {
@@ -81,33 +86,40 @@ int buffering_number(const char* src_string, char* out) {
   return i;
 }
 
-void parser(const char* calculation_src, N* stack) {
+int priority_check(char src_string){
+ return 1;
+}
+
+stack_type * parser(const char* calculation_src) {
   int i = 0;
+  stack_type* stack1 = NULL;
   while (calculation_src[i]) {
     if (is_operator(calculation_src[i])) {
-      // push(&stack);
-      printf(" oper%c", calculation_src[i]);
+      int priority = priority_check(calculation_src[i]);
+      stack1 = push_my(stack1, calculation_src[i], priority);
+      printf(" oper%c", (char)stack1->value);
       i++;
     } else {
       double tess = 0.0;
       char buf[256] = {0};
       i = i + buffering_number(&calculation_src[i], buf);
       tess = atof(buf);
-      push(&stack, tess, 0);
-      printf(" %.2lf", tess);
+      stack1 = push_my(stack1, tess, 0);
+      printf(" %.2lf", stack1->value);
     }
   }
+  return stack1;
 }
 
-void print_from_list(N* stack) {
-  if (stack == NULL) printf("click");
-  // printf("%.2lf", stack->value);
+void print_from_node(stack_type* stack1) {
+  if (stack1 == NULL) printf("click");
+  else printf("%c", (char)stack1->value);
 }
 
 int calc(const char* calculation_src) {
-  N* stack = NULL;
-  parser(calculation_src, stack);
-  // print_from_list(stack);
+  stack_type* stack1 = NULL;
+  stack1 = parser(calculation_src);
+  print_from_node(stack1);
   return 0;
 }
 
