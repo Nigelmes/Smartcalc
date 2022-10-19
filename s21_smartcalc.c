@@ -112,8 +112,15 @@ stack_type * parser(const char* calculation_src) {
 }
 
 void print_from_node(stack_type* stack1) {
-  if (stack1 == NULL) printf("click");
-  else printf("%c", (char)stack1->value);
+  stack_type * Ptrack = stack1;
+  while(Ptrack){
+    if(Ptrack->priority) {
+      printf("%c", (char)Ptrack->value);
+    } else {
+      printf(" %.2lf", Ptrack->value);
+    }
+    Ptrack = Ptrack->next;
+  }
 }
 
 int calc(const char* calculation_src) {
