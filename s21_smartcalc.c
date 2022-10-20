@@ -14,7 +14,7 @@ typedef struct Node_stack {
 
 int validator(const char* str) {
   int errcode = 0;
-  int operand = 0, dot = 0, i = 0;
+  int operand = 0, i = 0;
   while (str[i]) {
     if (str[i] == '(') {
       operand++;
@@ -79,7 +79,7 @@ int is_operator(char src_string) {
 
 int buffering_number(const char* src_string, char* out) {
   int i = 0;
-  while (src_string[i] >= '0' && src_string[i] <= '9' || src_string[i] == '.') {
+  while ((src_string[i] >= '0' && src_string[i] <= '9') || src_string[i] == '.') {
     out[i] = src_string[i];
     i++;
   }
