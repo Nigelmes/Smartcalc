@@ -67,17 +67,6 @@ stack_type *push_my(stack_type *plist , double value, int priority) {
   return Part;
 }
 
-int is_operator(char src_string) {
-  int errcode;
-  char* operators = "+-/*^%()@ABCDEFGH";
-  char* res = strchr(operators, src_string);
-  if (res) {
-    errcode = true;
-  } else
-    errcode = false;
-  return errcode;
-}
-
 int buffering_number(const char* src_string, char* out) {
   int i = 0;
   while ((src_string[i] >= '0' && src_string[i] <= '9') || src_string[i] == '.') {
