@@ -12,3 +12,4 @@ g:
 
 t:
 	$(CC) $(CFLAGS) s21_smartcalc.c -o calc
+	CK_FORK=no valgrind --vgdb=no --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./calc

@@ -58,6 +58,7 @@ N* peek(N** head) {
 stack_type *push_my(stack_type *plist , double value, int priority) {
   stack_type *Part = malloc(sizeof(stack_type));
   if (Part == NULL) {
+    free (Part);
     exit(1);
   }
   Part->next = plist;
