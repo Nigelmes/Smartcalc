@@ -119,6 +119,7 @@ cos,sin,tg,ctg,ln,log,!
 stack_type * parser(const char* calculation_src) {
   int i = 0;
   stack_type* stack1 = NULL;
+  size_t src_str_len = strlen(calculation_src);
   while (calculation_src[i]) {
     int priority = priority_check(calculation_src[i]);
     if (priority) {
