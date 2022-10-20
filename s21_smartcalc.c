@@ -151,14 +151,26 @@ void print_from_node(stack_type* stack1) {
   printf("\n");
 }
 
+void destroy_node(stack_type* stack1) {
+  stack_type * Ptrack = stack1;
+  while(Ptrack){
+    stack_type * Ptrack_bac = Ptrack->next;
+    free(Ptrack);
+    Ptrack = Ptrack_bac;
+  }
+  free(Ptrack);
+}
+
 int calc(const char* calculation_src) {
   stack_type* stack1 = parser(calculation_src);
   print_from_node(stack1);
+  destroy_node(stack1);
   return 0;
 }
 
 int main(void) {
   const char* arr = "-255.55+39.45*5555/158+A(55.66+15.78)";
+
   if (validator(arr) == 0)
     calc(arr);
   else
