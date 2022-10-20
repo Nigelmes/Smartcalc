@@ -123,15 +123,12 @@ stack_type * parser(const char* calculation_src) {
     int priority = priority_check(calculation_src[i]);
     if (priority) {
       stack1 = push_my(stack1, calculation_src[i], priority);
-      printf(" oper%c", (char)stack1->value);
       i++;
     } else {
-      double tess = 0.0;
       char buf[256] = {0};
       i = i + buffering_number(&calculation_src[i], buf);
-      tess = atof(buf);
+      double tess = atof(buf);
       stack1 = push_my(stack1, tess, priority);
-      printf(" %.2lf", stack1->value);
     }
   }
   return stack1;
@@ -142,9 +139,9 @@ void print_from_node(stack_type* stack1) {
   printf("\n");
   while(Ptrack){
     if(Ptrack->priority) {
-      printf(" oper%c", (char)Ptrack->value);
+      printf(" %dpri%c", Ptrack->priority, (char)Ptrack->value);
     } else {
-      printf(" %.2lf", Ptrack->value);
+      printf(" %dpri%.2lf", Ptrack->priority, Ptrack->value);
     }
     Ptrack = Ptrack->next;
   }
@@ -170,7 +167,6 @@ int calc(const char* calculation_src) {
 
 int main(void) {
   const char* arr = "-255.55+39.45*5555/158+A(55.66+15.78)";
-
   if (validator(arr) == 0)
     calc(arr);
   else
