@@ -140,7 +140,7 @@ stack_type * parser(const char* calculation_src) {
       char buf[256] = {0};
       i = i + buffering_number(&calculation_src[i], buf);
       tess = atof(buf);
-      stack1 = push_my(stack1, tess, 0);
+      stack1 = push_my(stack1, tess, priority);
       printf(" %.2lf", stack1->value);
     }
   }
