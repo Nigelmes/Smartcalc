@@ -190,18 +190,18 @@ int calc(const char* calculation_src) {
     if (stack_buf.priority) {  //  Если получили операцию или скобку
       
 
-      // printf(" pri%doper%c", stack_buf.priority, (int)stack_buf.value);
+      printf(" pri%doper%c", stack_buf.priority, (int)stack_buf.value);
       position++;
     } else {  //  Если получили число
       stack_numbers = push_my(stack_numbers, stack_buf.value, stack_buf.priority);      
-      // printf(" %dpri%0.2lf", stack_buf.priority, stack_buf.value);
+      printf(" %dpri%0.2lf", stack_buf.priority, stack_buf.value);
     }
 
 
   }
   printf("\n");
 
-  // print_from_node(stack_numbers);
+  print_from_node(stack_numbers);
   destroy_node(stack_numbers);
   destroy_node(stack_operations);
   return 0;
