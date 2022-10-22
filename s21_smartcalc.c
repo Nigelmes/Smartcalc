@@ -71,23 +71,24 @@ int buffering_number(const char *src_string, char *out) {
 
 int position_counter(char src_string) {
   char *operators = OPERATIONS;
-  int counter = 0, triger = 0;
+  int counter = 0;
   while (operators[counter]) {
     if (operators[counter] == src_string) {
-      triger = 1;
       break;
     }
     counter++;
   }
-  return triger ? counter + 1 : 0;
+  return counter + 1;
 }
 
 int prio_check(char src_string) {
   int prior = 0;
   int position_num = position_counter(src_string);
-  if (position_num == 0)
+  if (position_num == 18)
     prior = 0;
-  else if (position_num > 15)
+  else if (position_num == 17)
+    prior = 6;
+  else if (position_num == 16)
     prior = 5;
   else if (position_num > 6)
     prior = 4;
@@ -95,7 +96,7 @@ int prio_check(char src_string) {
     prior = 3;
   else if (position_num > 2)
     prior = 2;
-  else if (position_num >= 1)
+  else if (position_num > 0)
     prior = 1;
   return prior;
 }
@@ -157,9 +158,11 @@ int calc(const char *calculation_src) {
   while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type st_buf = parser_uno(calculation_src, &position);
     if (st_buf.prio) {  //  Если получили операцию или скобку
+      if (st_oper == NULL) {
+        st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+      } else if (st_buf.prio >= st_oper->prio){
 
-
-      st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+      }
       printf(" pri%doper%c", st_buf.prio, (int)st_buf.val_dub);
       position++;
     } else {  //  Если получили число
