@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// #define sin $
+#define OPERATIONS  "+-/*%^@ABCDEFGH()"
 
 enum truefalse {
   false,
