@@ -2,13 +2,13 @@
 
 // typedef struct N {
 //   double value;
-//   int priority;
+//   int prio;
 //   struct N* next;
 // } N;
 
 typedef struct Node_stack {
   double value;
-  int priority;
+  int prio;
   struct Node_stack *next;
 } stack_type;
 
@@ -28,16 +28,6 @@ int validator(const char *str) {
 }
 
 /*  Резерв
-void push(N** head, double value, int prior) {
-  N* tmp = malloc(sizeof(N));
-  if (tmp == NULL) {
-    exit(1);
-  }
-  tmp->next = *head;
-  tmp->value = value;
-  tmp->priority = prior;
-  *head = tmp;
-}
 
 N* pop1(N** head) {
   N* out;
@@ -57,14 +47,14 @@ N* peek(N** head) {
 }
 */
 
-stack_type *push_my(stack_type *plist, double value, int priority) {
+stack_type *push_sta(stack_type *plist, double value, int prio) {
   stack_type *Part = malloc(sizeof(stack_type));
   if (Part == NULL) {
     free(Part);
     exit(1);
   }
   Part->next = plist;
-  Part->priority = priority;
+  Part->prio = prio;
   Part->value = value;
   return Part;
 }
@@ -92,7 +82,7 @@ int position_counter(char src_string) {
   return triger ? counter + 1 : 0;
 }
 
-int priority_check(char src_string) {
+int prio_check(char src_string) {
   int prior = 0;
   int position_num = position_counter(src_string);
   if (position_num == 0)
@@ -119,37 +109,17 @@ cos,sin,tg,ctg,ln,log,!
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
 
-/*  Резерв
-stack_type * parser(const char* calculation_src) {
-  int i = 0;
-  stack_type* stack1 = NULL;
-  while (calculation_src[i]) {
-    int priority = priority_check(calculation_src[i]);
-    if (priority) {
-      stack1 = push_my(stack1, calculation_src[i], priority);
-      i++;
-    } else {
-      char buf[256] = {0};
-      i = i + buffering_number(&calculation_src[i], buf);
-      double tess = atof(buf);
-      stack1 = push_my(stack1, tess, priority);
-    }
-  }
-  return stack1;
-}
-*/
-
 stack_type parser_uno(const char *calculation_src, int *position) {
   stack_type stack1 = {0};
-  int priority = priority_check(calculation_src[*position]);
-  if (priority) {
-    stack1.priority = priority;
+  int prio = prio_check(calculation_src[*position]);
+  if (prio) {
+    stack1.prio = prio;
     stack1.value = calculation_src[*position];
   } else {
     char buf[256] = {0};
     *position = *position + buffering_number(&calculation_src[*position], buf);
     double tess = atof(buf);
-    stack1.priority = priority;
+    stack1.prio = prio;
     stack1.value = tess;
   }
   return stack1;
@@ -159,10 +129,10 @@ void print_from_node(stack_type *stack1) {
   stack_type *Ptrack = stack1;
   printf("\n");
   while (Ptrack) {
-    if (Ptrack->priority) {
-      printf(" %dpri%c", Ptrack->priority, (char)Ptrack->value);
+    if (Ptrack->prio) {
+      printf(" %dpri%c", Ptrack->prio, (char)Ptrack->value);
     } else {
-      printf(" %dpri%.2lf", Ptrack->priority, Ptrack->value);
+      printf(" %dpri%.2lf", Ptrack->prio, Ptrack->value);
     }
     Ptrack = Ptrack->next;
   }
@@ -182,24 +152,23 @@ void destroy_node(stack_type *stack1) {
 int calc(const char *calculation_src) {
   int position = 0;
   stack_type *stack_operations = NULL;
-  stack_type *stack_numbers = NULL;
+  stack_type *st_num = NULL;
   printf("\n");
   while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type stack_buf = parser_uno(calculation_src, &position);
-    if (stack_buf.priority) {  //  Если получили операцию или скобку
+    if (stack_buf.prio) {  //  Если получили операцию или скобку
 
-      printf(" pri%doper%c", stack_buf.priority, (int)stack_buf.value);
+      printf(" pri%doper%c", stack_buf.prio, (int)stack_buf.value);
       position++;
     } else {  //  Если получили число
-      stack_numbers =
-          push_my(stack_numbers, stack_buf.value, stack_buf.priority);
-      printf(" %dpri%0.2lf", stack_buf.priority, stack_buf.value);
+      st_num = push_sta(st_num, stack_buf.value, stack_buf.prio);
+      printf(" %dpri%0.2lf", stack_buf.prio, stack_buf.value);
     }
   }
   printf("\n");
 
-  print_from_node(stack_numbers);
-  destroy_node(stack_numbers);
+  print_from_node(st_num);
+  destroy_node(st_num);
   destroy_node(stack_operations);
   return 0;
 }
