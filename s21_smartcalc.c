@@ -27,25 +27,10 @@ int validator(const char *str) {
   return errcode;
 }
 
-/*  Резерв
-
-N* pop1(N** head) {
-  N* out;
-  if ((*head) == NULL) {
-    exit(2);
-  }
-  out = *head;
-  *head = (*head)->next;
-  return out;
+double pop_double (stack_type *plist) {
+  double bufer = 0.0;
+  return bufer;
 }
-
-N* peek(N** head) {
-  if ((*head) == NULL) {
-    exit(2);
-  }
-  return *head;
-}
-*/
 
 stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
   stack_type *Part = malloc(sizeof(stack_type));
@@ -150,6 +135,10 @@ void destroy_node(stack_type *stack1) {
   free(Ptrack);
 }
 
+calculating(){
+
+}
+
 int calc(const char *calculation_src) {
   int position = 0;
   stack_type *st_oper = NULL;
@@ -158,10 +147,16 @@ int calc(const char *calculation_src) {
   while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type st_buf = parser_uno(calculation_src, &position);
     if (st_buf.prio) {  //  Если получили операцию или скобку
-      if (st_oper == NULL) {
-        st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
-      } else if (st_buf.prio >= st_oper->prio){
-
+      while(st_buf.val_dub) {
+        if (st_oper == NULL) {
+          st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+        } else if (st_buf.prio == 5 && st_oper->prio != 6) {
+          st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+        } else if (st_buf.prio > st_oper->prio) {
+          st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+        } else {
+          double buf_num = calculating();
+        }
       }
       printf(" pri%doper%c", st_buf.prio, (int)st_buf.val_dub);
       position++;
@@ -179,7 +174,7 @@ int calc(const char *calculation_src) {
 }
 
 int main(void) {
-  const char *arr = "-255.55+39.45*5555/158+A(55.66+15.78)";
+  const char *arr = "255.55+39.45*5555/158+A(55.66+15.78)";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);
