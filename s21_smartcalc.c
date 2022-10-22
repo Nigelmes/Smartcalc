@@ -1,13 +1,13 @@
 #include "s21_smartcalc.h"
 
 // typedef struct N {
-//   double value;
+//   double val_dub;
 //   int prio;
 //   struct N* next;
 // } N;
 
 typedef struct Node_stack {
-  double value;
+  double val_dub;
   int prio;
   struct Node_stack *next;
 } stack_type;
@@ -47,7 +47,7 @@ N* peek(N** head) {
 }
 */
 
-stack_type *push_sta(stack_type *plist, double value, int prio) {
+stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
   stack_type *Part = malloc(sizeof(stack_type));
   if (Part == NULL) {
     free(Part);
@@ -55,7 +55,7 @@ stack_type *push_sta(stack_type *plist, double value, int prio) {
   }
   Part->next = plist;
   Part->prio = prio;
-  Part->value = value;
+  Part->val_dub = val_dub;
   return Part;
 }
 
@@ -114,13 +114,13 @@ stack_type parser_uno(const char *calculation_src, int *position) {
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
     stack1.prio = prio;
-    stack1.value = calculation_src[*position];
+    stack1.val_dub = calculation_src[*position];
   } else {
     char buf[256] = {0};
     *position = *position + buffering_number(&calculation_src[*position], buf);
     double tess = atof(buf);
     stack1.prio = prio;
-    stack1.value = tess;
+    stack1.val_dub = tess;
   }
   return stack1;
 }
@@ -130,9 +130,9 @@ void print_from_node(stack_type *stack1) {
   printf("\n");
   while (Ptrack) {
     if (Ptrack->prio) {
-      printf(" %dpri%c", Ptrack->prio, (char)Ptrack->value);
+      printf(" %dpri%c", Ptrack->prio, (char)Ptrack->val_dub);
     } else {
-      printf(" %dpri%.2lf", Ptrack->prio, Ptrack->value);
+      printf(" %dpri%.2lf", Ptrack->prio, Ptrack->val_dub);
     }
     Ptrack = Ptrack->next;
   }
@@ -151,25 +151,27 @@ void destroy_node(stack_type *stack1) {
 
 int calc(const char *calculation_src) {
   int position = 0;
-  stack_type *stack_operations = NULL;
+  stack_type *st_oper = NULL;
   stack_type *st_num = NULL;
   printf("\n");
   while (calculation_src[position]) {  //  Главный цикл вычисления
-    stack_type stack_buf = parser_uno(calculation_src, &position);
-    if (stack_buf.prio) {  //  Если получили операцию или скобку
+    stack_type st_buf = parser_uno(calculation_src, &position);
+    if (st_buf.prio) {  //  Если получили операцию или скобку
 
-      printf(" pri%doper%c", stack_buf.prio, (int)stack_buf.value);
+
+      st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+      printf(" pri%doper%c", st_buf.prio, (int)st_buf.val_dub);
       position++;
     } else {  //  Если получили число
-      st_num = push_sta(st_num, stack_buf.value, stack_buf.prio);
-      printf(" %dpri%0.2lf", stack_buf.prio, stack_buf.value);
+      st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
+      printf(" %dpri%0.2lf", st_buf.prio, st_buf.val_dub);
     }
   }
   printf("\n");
-
   print_from_node(st_num);
+  print_from_node(st_oper);
   destroy_node(st_num);
-  destroy_node(stack_operations);
+  destroy_node(st_oper);
   return 0;
 }
 
