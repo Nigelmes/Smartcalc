@@ -1,9 +1,9 @@
 #include "s21_smartcalc.h"
 
 // typedef struct N {
-//   double val_dub;
+//   double val;
 //   int prio;
-//   struct N* next;
+//   struct N* next; 
 // } N;
 
 typedef struct Node_stack {
@@ -27,15 +27,47 @@ int validator(const char *str) {
   return errcode;
 }
 
-double pop_double (stack_type *plist) {
+double pop_double (stack_type *num_stack) {
   double bufer = 0.0;
+  if (num_stack == NULL) {
+    printf("FUCK OFF2!!!");
+    exit(1);
+  }
+  bufer = num_stack->val_dub;
+  if (num_stack->next==NULL) {
+    printf("\n BOOOM1 \n");
+    free(num_stack);
+    num_stack = NULL;
+  } else {
+    stack_type * bufer = num_stack->next;
+    printf("\n BOOOM2 \n");
+    // free(num_stack);
+    num_stack = bufer;
+  }
+  return bufer;
+}
+
+char pop_oper (stack_type *oper_stack) {
+  char bufer = '0';
+  if (oper_stack == NULL) {
+    printf("FUCK OFF!!!");
+    exit(1);
+  }
+  bufer = (char)oper_stack->val_dub;
+  if (oper_stack->next==NULL) {
+    free(oper_stack);
+    oper_stack = NULL;
+  } else {
+    stack_type * bufer = oper_stack->next;
+    free(oper_stack);
+    oper_stack = bufer;
+  }
   return bufer;
 }
 
 stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
   stack_type *Part = malloc(sizeof(stack_type));
   if (Part == NULL) {
-    free(Part);
     exit(1);
   }
   Part->next = plist;
@@ -135,8 +167,23 @@ void destroy_node(stack_type *stack1) {
   free(Ptrack);
 }
 
-calculating(){
-
+double calculating(double second_num, double first_num, char operation) {
+  double out_num = 0.0;
+  switch (operation) {
+    case '+':
+      out_num = first_num + second_num;
+      break;
+    case '-':
+      out_num = first_num + second_num;
+      break;
+    case '*':
+      out_num = first_num + second_num;
+      break;
+    case '/':
+      out_num = first_num + second_num;
+      break;
+  }
+  return out_num;
 }
 
 int calc(const char *calculation_src) {
@@ -145,20 +192,27 @@ int calc(const char *calculation_src) {
   stack_type *st_num = NULL;
   printf("\n");
   while (calculation_src[position]) {  //  Главный цикл вычисления
-    stack_type st_buf = parser_uno(calculation_src, &position);
+    stack_type st_buf = parser_uno(calculation_src, &position);  //  Парсим одну сексемму из строки
     if (st_buf.prio) {  //  Если получили операцию или скобку
+      // printf(" priori%doper%c", st_buf.prio, (char)st_buf.val_dub);
       while(st_buf.val_dub) {
-        if (st_oper == NULL) {
+        if (st_oper == NULL) {  //   Если стэк пуст
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
-        } else if (st_buf.prio == 5 && st_oper->prio != 6) {
+          st_buf.val_dub = 0.0;
+        } else if (st_buf.prio == 5 && st_oper->prio != 6) {  //  Если пришла скобка а в стеке нет скобки
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
-        } else if (st_buf.prio > st_oper->prio) {
+          st_buf.val_dub = 0.0;
+        } else if (st_buf.prio > st_oper->prio) {  //  Ели приоритет опреации больше приоритета в стеке 
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+          st_buf.val_dub = 0.0;
         } else {
-          double buf_num = calculating();
+          double second = pop_double(st_num);
+          double first = pop_double(st_num);
+          char oper = pop_oper(st_oper);
+          double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из стека и операции 
+          st_oper = push_sta(st_num, buf_num, 0);
         }
       }
-      printf(" pri%doper%c", st_buf.prio, (int)st_buf.val_dub);
       position++;
     } else {  //  Если получили число
       st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
@@ -168,13 +222,13 @@ int calc(const char *calculation_src) {
   printf("\n");
   print_from_node(st_num);
   print_from_node(st_oper);
-  destroy_node(st_num);
-  destroy_node(st_oper);
+  //destroy_node(st_num);
+  //destroy_node(st_oper);
   return 0;
 }
 
 int main(void) {
-  const char *arr = "255.55+39.45*5555/158+A(55.66+15.78)";
+  const char *arr = "3+2+5*6/2+5*4+6-4";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);
