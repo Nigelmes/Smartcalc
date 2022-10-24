@@ -6,12 +6,6 @@
 //   struct N* next; 
 // } N;
 
-typedef struct Node_stack {
-  double val_dub;
-  int prio;
-  struct Node_stack *next;
-} stack_type;
-
 int validator(const char *str) {
   int errcode = 0;
   int operand = 0, i = 0;
@@ -47,7 +41,7 @@ double pop_double (stack_type *num_stack) {
   return bufer;
 }
 
-char pop_oper (stack_type *oper_stack) {
+char pop_oper (stack_type **oper_stack) {
   char bufer = '0';
   if (oper_stack == NULL) {
     printf("FUCK OFF!!!");
@@ -227,14 +221,14 @@ int calc(const char *calculation_src) {
   return 0;
 }
 
-int main(void) {
-  const char *arr = "3+2+5*6/2+5*4+6-4";
-  printf("%s", arr);
-  if (validator(arr) == 0)
-    calc(arr);
-  else
-    printf("Ошибка");
-  return 0;
-}
+// int main(void) {
+//   const char *arr = "3+2+5*6/2+5*4+6-4";
+//   printf("%s", arr);
+//   if (validator(arr) == 0)
+//     calc(arr);
+//   else
+//     printf("Ошибка");
+//   return 0;
+// }
 
 //  "-255.55+39.45*5555/158+A(55.66+15.78)"

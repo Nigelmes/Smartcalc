@@ -10,6 +10,10 @@ g: clean
 	git commit -m"develop-s21_smartcalc.c"
 	git push origin leftrana
 
+test: clean
+	$(CC) $(CFLAGS) t.c -o t
+	./t
+
 t:
 	$(CC) $(CFLAGS) s21_smartcalc.c -o calc
 	./calc

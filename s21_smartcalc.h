@@ -8,6 +8,12 @@
 
 #define OPERATIONS  "+-/*%^@ABCDEFGH()"
 
+typedef struct Node_stack {
+  double val_dub;
+  int prio;
+  struct Node_stack *next;
+} stack_type;
+
 enum truefalse {
   false,
   true,
