@@ -27,4 +27,4 @@ c:
 	make t
 
 clean:
-	rm -rf calc.dSYM calc
+	rm -rf calc.dSYM calc t
