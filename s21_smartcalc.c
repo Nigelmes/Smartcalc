@@ -41,7 +41,7 @@ double pop_double (stack_type *num_stack) {
   } else {
     stack_type * bufer = num_stack->next;
     printf("\n BOOOM2 \n");
-    // free(num_stack);
+    free(num_stack);
     num_stack = bufer;
   }
   return bufer;
