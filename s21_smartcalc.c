@@ -210,7 +210,7 @@ int calc(const char *calculation_src) {
           double second = pop_val(&st_num);
           double first = pop_val(&st_num);
           char oper = (char)pop_val(&st_oper);
-          double buf_num = calculating(first, second, oper);  //  Расчёт двух чисел из стека и операции 
+          double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из стека и операции 
           st_num = push_sta(st_num, buf_num, 0);
         }
       }
@@ -228,7 +228,7 @@ int calc(const char *calculation_src) {
 }
 
 int main(void) {
-  const char *arr = "3+2+6-4";
+  const char *arr = "3+2+5*6/2+5*4+6-4";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);
