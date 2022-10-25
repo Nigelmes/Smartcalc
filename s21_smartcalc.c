@@ -219,7 +219,7 @@ int calc(const char *calculation_src) {
       st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
     }
   }
-  while (st_num->next != NULL) {
+  while (st_num->next != NULL) {  //  Расчёт оставшегося содержимого стеков
     double second = pop_val(&st_num);
     double first = pop_val(&st_num);
     char oper = (char)pop_val(&st_oper);
