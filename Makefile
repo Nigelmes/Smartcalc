@@ -14,7 +14,7 @@ test: clean
 	$(CC) $(CFLAGS) t.c -o t
 	./t
 
-t:
+t: clean
 	$(CC) $(CFLAGS) s21_smartcalc.c -o calc
 	./calc
 

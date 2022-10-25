@@ -1,20 +1,22 @@
 #include "s21_smartcalc.h"
 
-char pop_oper (stack_type *oper_stack) {
-  char bufer = '0';
+double pop(stack_type ** plist) {
+  stack_type * p = *plist;
+  double res = p->val_dub;
+  *plist = p->next;
+  free(p);
+  return res;
+}
+
+double pop_from_stack (stack_type **stack) {
+  stack_type *oper_stack = *stack;
+  double bufer = 0.0;
   if (oper_stack == NULL) {
-    printf("FUCK OFF!!!");
     exit(1);
   }
-  bufer = (char)oper_stack->val_dub;
-  if (oper_stack->next==NULL) {
-    free(oper_stack);
-    oper_stack = NULL;
-  } else {
-    stack_type * bufer = oper_stack->next;
-    free(oper_stack);
-    oper_stack = bufer;
-  }
+  bufer = (double)oper_stack->val_dub;
+  *stack = oper_stack->next;
+  free(oper_stack);
   return bufer;
 }
 
@@ -31,11 +33,11 @@ stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
 
 int main(void) {
     stack_type * st = NULL;
-    st = push_sta(st, 2.0, 0);
-    printf("\n %lf \n", st->val_dub);
-    st = push_sta(st, 2.0, 0);
-    printf("\n %lf \n", st->val_dub);
-    pop_oper(st);
-    printf("\n %lf \n", st->val_dub);
+    st = push_sta(st, '*', 2);
+    st = push_sta(st, '/', 2);
+    double i = pop_oper(&st);
+    printf("\n %lf \n", i);
+    i = pop_oper(&st);
+    printf("\n %lf \n", i);
   return 0;
 }
