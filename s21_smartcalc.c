@@ -226,7 +226,7 @@ int calc(const char *calculation_src) {
     double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из стека и операции в стеке
     st_num = push_sta(st_num, buf_num, 0);
   }
-  printf("\n");
+  printf("\nРАВНО");
   print_from_node(st_num);
   print_from_node(st_oper);
   destroy_node(st_num);
