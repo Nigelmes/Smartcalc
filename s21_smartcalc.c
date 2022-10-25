@@ -219,6 +219,13 @@ int calc(const char *calculation_src) {
       st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
     }
   }
+  while (st_num->next != NULL) {
+    double second = pop_val(&st_num);
+    double first = pop_val(&st_num);
+    char oper = (char)pop_val(&st_oper);
+    double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из стека и операции в стеке
+    st_num = push_sta(st_num, buf_num, 0);
+  }
   printf("\n");
   print_from_node(st_num);
   print_from_node(st_oper);
@@ -228,7 +235,7 @@ int calc(const char *calculation_src) {
 }
 
 int main(void) {
-  const char *arr = "3+2+5*6/2+5*4+6-4";
+  const char *arr = "3+2+5*6/2+5*4+6-4*3";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);
