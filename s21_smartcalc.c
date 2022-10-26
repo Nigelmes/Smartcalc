@@ -78,7 +78,7 @@ stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
   return Part;
 }
 
-int buffering_number(const char *src_string, char *out) {
+int buffering_number(const char *src_string, char *out) {  //  Сборка числа в строку, возвращает длинну числа
   int i = 0;
   while ((src_string[i] >= '0' && src_string[i] <= '9') ||
          src_string[i] == '.') {
@@ -88,7 +88,7 @@ int buffering_number(const char *src_string, char *out) {
   return i;
 }
 
-int position_counter(char src_string) {
+int position_counter(char src_string) {  //  Подсчёт позиции операции строке приоритетов
   char *operators = OPERATIONS;
   int counter = 0;
   while (operators[counter]) {
@@ -100,7 +100,7 @@ int position_counter(char src_string) {
   return counter + 1;
 }
 
-int prio_check(char src_string) {
+int prio_check(char src_string) {  //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
   if (position_num == 18)
@@ -129,7 +129,7 @@ cos,sin,tg,ctg,ln,log,!
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
 
-stack_type parser_uno(const char *calculation_src, int *position) {
+stack_type parser_uno(const char *calculation_src, int *position) {  //  Парсер одной лексеммы
   stack_type stack1 = {0};
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
@@ -203,7 +203,7 @@ int calc(const char *calculation_src) {
         } else if (st_buf.prio == 5 && st_oper->prio != 6) {  //  Если пришла скобка а в стеке нет скобки
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
-        } else if (st_buf.prio > st_oper->prio) {  //  Ели приоритет опреации больше приоритета в стеке 
+        } else if (st_buf.prio > st_oper->prio) {  //  Если приоритет опреации больше приоритета в стеке 
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
         } else {
@@ -235,7 +235,7 @@ int calc(const char *calculation_src) {
 }
 
 int main(void) {
-  const char *arr = "3+2+5*6/2+5*4+6-4*3";
+  const char *arr = "3+2+5*6/2+5*4+6-4*3/2";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);
