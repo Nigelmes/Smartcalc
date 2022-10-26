@@ -3,7 +3,7 @@
 // typedef struct N {
 //   double val;
 //   int prio;
-//   struct N* next; 
+//   struct N* next;
 // } N;
 
 int validator(const char *str) {
@@ -21,14 +21,14 @@ int validator(const char *str) {
   return errcode;
 }
 
-double pop_double (stack_type **stack) {
+double pop_double(stack_type **stack) {
   stack_type *oper_stack = *stack;
   double bufer = 0.0;
   if (oper_stack == NULL) {
     exit(1);
   }
   bufer = oper_stack->val_dub;
-  if (oper_stack->next==NULL) {
+  if (oper_stack->next == NULL) {
     free(stack);
     oper_stack = NULL;
   } else {
@@ -78,7 +78,9 @@ stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
   return Part;
 }
 
-int buffering_number(const char *src_string, char *out) {  //  Сборка числа в строку, возвращает длинну числа
+int buffering_number(
+    const char *src_string,
+    char *out) {  //  Сборка числа в строку, возвращает длинну числа
   int i = 0;
   while ((src_string[i] >= '0' && src_string[i] <= '9') ||
          src_string[i] == '.') {
@@ -88,7 +90,8 @@ int buffering_number(const char *src_string, char *out) {  //  Сборка чи
   return i;
 }
 
-int position_counter(char src_string) {  //  Подсчёт позиции операции строке приоритетов
+int position_counter(
+    char src_string) {  //  Подсчёт позиции операции строке приоритетов
   char *operators = OPERATIONS;
   int counter = 0;
   while (operators[counter]) {
@@ -129,7 +132,8 @@ cos,sin,tg,ctg,ln,log,!
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
 
-stack_type parser_uno(const char *calculation_src, int *position) {  //  Парсер одной лексеммы
+stack_type parser_uno(const char *calculation_src,
+                      int *position) {  //  Парсер одной лексеммы
   stack_type stack1 = {0};
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
@@ -194,23 +198,28 @@ int calc(const char *calculation_src) {
   stack_type *st_num = NULL;
   printf("\n");
   while (calculation_src[position]) {  //  Главный цикл вычисления
-    stack_type st_buf = parser_uno(calculation_src, &position);  //  Парсим одну лексемму из строки
+    stack_type st_buf =
+        parser_uno(calculation_src, &position);  //  Парсим одну лексемму
     if (st_buf.prio) {  //  Если получили операцию или скобку
-      while(st_buf.val_dub) {
-        if (st_oper == NULL) {  //   Если стэк пуст
+      while (st_buf.val_dub) {
+        if (st_oper == NULL) {  // Если стэк пуст
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
-        } else if (st_buf.prio == 5 && st_oper->prio != 6) {  //  Если пришла скобка а в стеке нет скобки
+        } else if (st_buf.prio == 5 &&
+                   st_oper->prio !=
+                       6) {  //Если пришла скобка а в стеке нет скобки
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
-        } else if (st_buf.prio > st_oper->prio) {  //  Если приоритет опреации больше приоритета в стеке 
-          st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
-          st_buf.val_dub = 0.0;
+        } else if (st_buf.prio > st_oper->prio) {  //Если приоритет опреации
+          st_oper = push_sta(st_oper, st_buf.val_dub,
+                             st_buf.prio);  //больше приоритета
+          st_buf.val_dub = 0.0;             //в стеке
         } else {
           double second = pop_val(&st_num);
           double first = pop_val(&st_num);
           char oper = (char)pop_val(&st_oper);
-          double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из стека и операции 
+          double buf_num = calculating(
+              second, first, oper);  //  Расчёт двух чисел из стека и операции
           st_num = push_sta(st_num, buf_num, 0);
         }
       }
@@ -223,8 +232,8 @@ int calc(const char *calculation_src) {
     double second = pop_val(&st_num);
     double first = pop_val(&st_num);
     char oper = (char)pop_val(&st_oper);
-    double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из стека и операции в стеке
-    st_num = push_sta(st_num, buf_num, 0);
+    double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из
+    st_num = push_sta(st_num, buf_num, 0);  //  стека и операции в стеке
   }
   printf("\nРАВНО");
   print_from_node(st_num);
