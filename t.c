@@ -8,9 +8,9 @@ double pop(stack_type **plist) {
   return res;
 }
 
-double math_operations(stack_type ** num, stack_type ** oper) {
-  stack_type * oper_st = *oper;
-  stack_type * num_st = *num;
+double math_operations(stack_type **num, stack_type **oper) {
+  stack_type *oper_st = *oper;
+  stack_type *num_st = *num;
   double buf_num;
   if (oper_st->prio < 3) {
     double second = pop_val(&num_st);
@@ -21,7 +21,6 @@ double math_operations(stack_type ** num, stack_type ** oper) {
   }
   return buf_num;
 }
-
 
 double pop_from_stack(stack_type **stack) {
   stack_type *oper_stack = *stack;

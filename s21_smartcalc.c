@@ -12,12 +12,15 @@ int validator(const char *str) {
   while (str[i]) {
     if (str[i] == '(') {
       operand++;
-      if (strchr("+-/*^%@ABCDEFGH", str[i - 1]) == NULL) errcode = 1;
+      if (strchr("+-/*^%@ABCDEFGH", str[i - 1]) == NULL)
+        errcode = 1;
     }
-    if (str[i] == ')') operand--;
+    if (str[i] == ')')
+      operand--;
     i++;
   }
-  if (operand != 0) errcode = 1;
+  if (operand != 0)
+    errcode = 1;
   return errcode;
 }
 
@@ -46,7 +49,7 @@ stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
 
 int buffering_number(
     const char *src_string,
-    char *out) {  //  Сборка числа в строку, возвращает длинну числа
+    char *out) { //  Сборка числа в строку, возвращает длинну числа
   int i = 0;
   while ((src_string[i] >= '0' && src_string[i] <= '9') ||
          src_string[i] == '.') {
@@ -57,7 +60,7 @@ int buffering_number(
 }
 
 int position_counter(
-    char src_string) {  //  Подсчёт позиции операции строке приоритетов
+    char src_string) { //  Подсчёт позиции операции строке приоритетов
   char *operators = OPERATIONS;
   int counter = 0;
   while (operators[counter]) {
@@ -69,7 +72,7 @@ int position_counter(
   return counter + 1;
 }
 
-int prio_check(char src_string) {  //  Определение приоритета опреатора
+int prio_check(char src_string) { //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
   if (position_num == 18)
@@ -99,7 +102,7 @@ int prio_check(char src_string) {  //  Определение приоритет
 Корень - это частный случай степени. */
 
 stack_type parser_uno(const char *calculation_src,
-                      int *position) {  //  Парсер одной лексеммы
+                      int *position) { //  Парсер одной лексеммы
   stack_type stack1 = {0};
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
@@ -122,7 +125,7 @@ void print_from_node(stack_type *stack1) {
     if (Ptrack->prio) {
       printf(" %dpri%c", Ptrack->prio, (char)Ptrack->val_dub);
     } else {
-      printf(" %dpri%.2lf", Ptrack->prio, Ptrack->val_dub);
+      printf(" %.7lf", Ptrack->val_dub);
     }
     Ptrack = Ptrack->next;
   }
@@ -142,34 +145,70 @@ void destroy_node(stack_type *stack1) {
 double simple_math(double second_num, double first_num, char operation) {
   double out_num = 0.0;
   switch (operation) {
-    case '+':
-      out_num = first_num + second_num;
-      break;
-    case '-':
-      out_num = first_num - second_num;
-      break;
-    case '*':
-      out_num = first_num * second_num;
-      break;
-    case '/':
-      out_num = first_num / second_num;
-      break;
-    case '^':
-      out_num = pow(first_num, second_num);
-      break;
+  case '+':
+    out_num = first_num + second_num;
+    break;
+  case '-':
+    out_num = first_num - second_num;
+    break;
+  case '*':
+    out_num = first_num * second_num;
+    break;
+  case '/':
+    out_num = first_num / second_num;
+    break;
+  case '^':
+    out_num = pow(first_num, second_num);
+    break;
   }
   return out_num;
 }
 
-double math_operations(stack_type ** num_sta, stack_type ** oper_sta) {
-  double buf_num;
+double trigon_calc(double x, char operation) {
+  double buf_num = 0.0;
+  switch (operation) {
+  case COS:
+    buf_num = cos(x);
+    break;
+  case SIN:
+    buf_num = sin(x);
+    break;
+  case TAN:
+    buf_num = tan(x);
+    break;
+  case ACOS:
+    buf_num = acos(x);
+    break;
+  case ASIN:
+    buf_num = asin(x);
+    break;
+  case ATAN:
+    buf_num = atan(x);
+    break;
+  case SQRT:
+    buf_num = sqrt(x);
+    break;
+  case LN:
+    buf_num = log(x);
+    break;
+  case LOG:
+    buf_num = log10(x);
+    break;
+  }
+  return buf_num;
+}
+
+double math_operations(stack_type **num_sta, stack_type **oper_sta) {
+  double buf_num = 0.0;
   if ((*oper_sta)->prio < 4) {
     double second = pop_val(num_sta);
     double first = pop_val(num_sta);
     char operat = (char)pop_val(oper_sta);
-    buf_num = simple_math(second, first, operat);  
+    buf_num = simple_math(second, first, operat);
   } else if ((*oper_sta)->prio < 5) {
-    buf_num = cos(pop_val(num_sta));
+    buf_num = pop_val(num_sta);
+    char oper_buf = pop_val(oper_sta);
+    buf_num = trigon_calc(buf_num, oper_buf);
   }
   return buf_num;
 }
@@ -179,34 +218,34 @@ int calc(const char *calculation_src) {
   stack_type *st_oper = NULL;
   stack_type *st_num = NULL;
   printf("\n");
-  while (calculation_src[position]) {  //  Главный цикл вычисления
+  while (calculation_src[position]) { //  Главный цикл вычисления
     stack_type st_buf =
-        parser_uno(calculation_src, &position);  //  Парсим одну лексемму
-    if (st_buf.prio) {  //  Если получили операцию или скобку
+        parser_uno(calculation_src, &position); //  Парсим одну лексемму
+    if (st_buf.prio) { //  Если получили операцию или скобку
       while (st_buf.val_dub) {
-        if (st_oper == NULL) {  // Если стэк пуст
+        if (st_oper == NULL) { // Если стэк пуст
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
         } else if (st_buf.prio == 5 &&
                    st_oper->prio !=
-                       6) {  //Если пришла скобка а в стеке нет скобки
+                       6) { //Если пришла скобка а в стеке нет скобки
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
-        } else if (st_buf.prio > st_oper->prio) {  //Если приоритет опреации
+        } else if (st_buf.prio > st_oper->prio) { //Если приоритет опреации
           st_oper = push_sta(st_oper, st_buf.val_dub,
-                             st_buf.prio);  //больше приоритета
-          st_buf.val_dub = 0.0;             //в стеке
-        } else {  //  Выполнить расчёт
+                             st_buf.prio); //больше приоритета
+          st_buf.val_dub = 0.0;            //в стеке
+        } else {                           //  Выполнить расчёт
           double buf_num = math_operations(&st_num, &st_oper);
           st_num = push_sta(st_num, buf_num, 0);
         }
       }
       position++;
-    } else {  //  Если получили число
+    } else { //  Если получили число
       st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
     }
   }
-  while (st_num->next != NULL) {  //  Расчёт оставшегося содержимого стеков
+  while (st_num->next != NULL) { //  Расчёт оставшегося содержимого стеков
     double buf_num = math_operations(&st_num, &st_oper);
     st_num = push_sta(st_num, buf_num, 0);
   }
@@ -219,7 +258,9 @@ int calc(const char *calculation_src) {
 }
 
 int main(void) {
-  const char *arr = "3+2+5*6/2+5*4+6-4*3/2";
+  int a = 'A';
+  printf("%d \n", a);
+  const char *arr = "3.5556665+B2.2323232+5.5151515*6/2+5*4+3^6-4*3/2";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);
