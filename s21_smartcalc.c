@@ -258,9 +258,9 @@ int calc(const char *calculation_src) {
 }
 
 int main(void) {
-  int a = 'A';
-  printf("%d \n", a);
-  const char *arr = "3.5556665+B2.2323232+5.5151515*6/2+5*4+3^6-4*3/2";
+  int a = 70;
+  printf("%c \n", (char)a);
+  const char *arr = "3.5556665+B5+5.51*6/F2+5*4+3^6-4*3/2";
   printf("%s", arr);
   if (validator(arr) == 0)
     calc(arr);

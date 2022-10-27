@@ -25,7 +25,7 @@ enum truefalse {
   ATAN,
   SQRT,
   LN,
-  LOG
+  LOG = 'H'
 };
 
 #endif  // SRC_S21_SMARTCALC_H_
