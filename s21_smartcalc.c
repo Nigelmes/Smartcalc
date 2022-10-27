@@ -21,40 +21,6 @@ int validator(const char *str) {
   return errcode;
 }
 
-double pop_double(stack_type **stack) {
-  stack_type *oper_stack = *stack;
-  double bufer = 0.0;
-  if (oper_stack == NULL) {
-    exit(1);
-  }
-  bufer = oper_stack->val_dub;
-  if (oper_stack->next == NULL) {
-    free(stack);
-    oper_stack = NULL;
-  } else {
-    *stack = oper_stack->next;
-    free(oper_stack);
-  }
-  return bufer;
-}
-
-// char pop_oper (stack_type **stack) {
-//   stack_type *oper_stack = *stack;
-//   char bufer = '0';
-//   if (oper_stack == NULL) {
-//     exit(1);
-//   }
-//   bufer = (char)oper_stack->val_dub;
-//   if (oper_stack->next==NULL) {
-//     free(oper_stack);
-//     oper_stack = NULL;
-//   } else {
-//     *stack = oper_stack->next;
-//     free(oper_stack);
-//   }
-//   return bufer;
-// }
-
 double pop_val(stack_type **stack) {
   stack_type *oper_stack = *stack;
   double bufer = 0.0;
@@ -123,11 +89,11 @@ int prio_check(char src_string) {  //  Определение приоритет
   return prior;
 }
 
-/*  +,-
-*,/
-^
-cos,sin,tg,ctg,ln,log,!
-()
+/*   1 +,-
+2 *,/
+3 ^
+4 cos,sin,tg,ctg,ln,log,!
+5 ()
 
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
@@ -173,7 +139,7 @@ void destroy_node(stack_type *stack1) {
   free(Ptrack);
 }
 
-double calculating(double second_num, double first_num, char operation) {
+double simple_math(double second_num, double first_num, char operation) {
   double out_num = 0.0;
   switch (operation) {
     case '+':
@@ -188,8 +154,24 @@ double calculating(double second_num, double first_num, char operation) {
     case '/':
       out_num = first_num / second_num;
       break;
+    case '^':
+      out_num = pow(first_num, second_num);
+      break;
   }
   return out_num;
+}
+
+double math_operations(stack_type ** num_sta, stack_type ** oper_sta) {
+  double buf_num;
+  if ((*oper_sta)->prio < 4) {
+    double second = pop_val(num_sta);
+    double first = pop_val(num_sta);
+    char operat = (char)pop_val(oper_sta);
+    buf_num = simple_math(second, first, operat);  
+  } else if ((*oper_sta)->prio < 5) {
+    buf_num = cos(pop_val(num_sta));
+  }
+  return buf_num;
 }
 
 int calc(const char *calculation_src) {
@@ -214,12 +196,8 @@ int calc(const char *calculation_src) {
           st_oper = push_sta(st_oper, st_buf.val_dub,
                              st_buf.prio);  //больше приоритета
           st_buf.val_dub = 0.0;             //в стеке
-        } else {
-          double second = pop_val(&st_num);
-          double first = pop_val(&st_num);
-          char oper = (char)pop_val(&st_oper);
-          double buf_num = calculating(
-              second, first, oper);  //  Расчёт двух чисел из стека и операции
+        } else {  //  Выполнить расчёт
+          double buf_num = math_operations(&st_num, &st_oper);
           st_num = push_sta(st_num, buf_num, 0);
         }
       }
@@ -229,11 +207,8 @@ int calc(const char *calculation_src) {
     }
   }
   while (st_num->next != NULL) {  //  Расчёт оставшегося содержимого стеков
-    double second = pop_val(&st_num);
-    double first = pop_val(&st_num);
-    char oper = (char)pop_val(&st_oper);
-    double buf_num = calculating(second, first, oper);  //  Расчёт двух чисел из
-    st_num = push_sta(st_num, buf_num, 0);  //  стека и операции в стеке
+    double buf_num = math_operations(&st_num, &st_oper);
+    st_num = push_sta(st_num, buf_num, 0);
   }
   printf("\nРАВНО");
   print_from_node(st_num);

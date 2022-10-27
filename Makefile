@@ -15,7 +15,7 @@ test: clean
 	./t
 
 t: clean
-	$(CC) $(CFLAGS) s21_smartcalc.c -o calc
+	$(CC) $(CFLAGS) s21_smartcalc.c -lm -o calc
 	./calc
 
 v:
