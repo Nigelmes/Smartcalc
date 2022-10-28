@@ -247,7 +247,7 @@ double calc(const char *calculation_src) {
     st_num = push_sta(st_num, buf_num, 0);
   }
   printf(
-      "\nСодержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
+      "Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
       "только одно число");
   print_from_node(st_num);
   print_from_node(st_oper);
@@ -260,14 +260,14 @@ double calc(const char *calculation_src) {
 int main(void) {
   int a = 70;
   double result = 0.0;
-  printf("%c \n", (char)a);
+  printf("Кодировка тригонометрических функций %c \n", (char)a);
   const char *arr = "3.5556665+B5+5.51*6/F2+5*4+3^6-4*3/2";
-  printf("%s", arr);
   if (validator(arr) == 0)
     result = calc(arr);
   else
     printf("Ошибка");
-  printf("Равно %0.7lf", result);
+  printf("%s \n", arr);
+  printf("Равно %0.7lf\n", result);
   return 0;
 }
 
