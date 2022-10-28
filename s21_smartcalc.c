@@ -196,6 +196,7 @@ double trigon_calc(double x, char operation) {
       break;
     default:
       exit(2);
+      break;
   }
   return buf_num;
 }
@@ -238,7 +239,7 @@ double calc(const char *calculation_src) {
           st_oper = push_sta(st_oper, st_buf.val_dub,
                              st_buf.prio);  //больше приоритета
           st_buf.val_dub = 0.0;             //в стеке
-        } else {                            
+        } else {
           double buf_num = math_operations(&st_num, &st_oper);
           st_num = push_sta(st_num, buf_num, 0); //  Выполнить расчёт
         }
