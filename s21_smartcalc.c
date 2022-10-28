@@ -267,7 +267,7 @@ double calc(const char *calculation_src) {
 int main(void) {
   int a = 70;
   double result = 0.0;
-  printf("Кодировка тригонометрических функций %c \n", (char)a);
+  printf("Кодировка тригонометрических функций %c = %d \n", (char)a, a);
   const char *arr = "3.5556-29M5+5.51*6/F2+5*4+3^6-4*3/2";
   if (validator(arr) == 0)
     result = calc(arr);
