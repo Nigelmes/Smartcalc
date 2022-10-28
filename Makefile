@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Wextra -std=c11 -g
 LFLAG = -lm
 
-all: 
+all: clean
 	gcc s21_smartcalc.c -o calc $(LFLAG)
 	./calc
 
@@ -19,7 +19,7 @@ t: clean
 	$(CC) $(CFLAGS) s21_smartcalc.c -o calc $(LFLAG)
 	./calc
 
-v:
+v: clean
 	$(CC) $(CFLAGS) s21_smartcalc.c -o calc $(LFLAG)
 	CK_FORK=no valgrind --vgdb=no --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./calc
 

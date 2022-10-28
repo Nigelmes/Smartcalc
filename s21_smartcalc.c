@@ -12,7 +12,7 @@ int validator(const char *str) {
   while (str[i]) {
     if (str[i] == '(') {
       operand++;
-      if (strchr("+-/*^%@ABCDEFGH", str[i - 1]) == NULL) errcode = 1;
+      if (strchr("+-/*^M@ABCDEFGH", str[i - 1]) == NULL) errcode = 1;
     }
     if (str[i] == ')') operand--;
     i++;
@@ -90,7 +90,7 @@ int prio_check(char src_string) {  //  Определение приоритет
 }
 
 /*   1 +,-
-2 *,/
+2 *,/,mod(остаток от деления)
 3 ^
 4 cos,sin,tg,ctg,ln,log,!
 5 ()
@@ -157,6 +157,9 @@ double simple_math(double second_num, double first_num, char operation) {
     case '^':
       out_num = pow(first_num, second_num);
       break;
+    case 'M':
+      out_num = fmod(first_num, second_num);
+      break;
   }
   return out_num;
 }
@@ -191,6 +194,8 @@ double trigon_calc(double x, char operation) {
     case LOG:
       buf_num = log10(x);
       break;
+    default:
+      exit(2);
   }
   return buf_num;
 }
@@ -210,11 +215,12 @@ double math_operations(stack_type **num_sta, stack_type **oper_sta) {
   return buf_num;
 }
 
+
+
 double calc(const char *calculation_src) {
   int position = 0;
   stack_type *st_oper = NULL;
   stack_type *st_num = NULL;
-  printf("\n");
   while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type st_buf =
         parser_uno(calculation_src, &position);  //  Парсим одну лексемму
@@ -232,9 +238,9 @@ double calc(const char *calculation_src) {
           st_oper = push_sta(st_oper, st_buf.val_dub,
                              st_buf.prio);  //больше приоритета
           st_buf.val_dub = 0.0;             //в стеке
-        } else {                            //  Выполнить расчёт
+        } else {                            
           double buf_num = math_operations(&st_num, &st_oper);
-          st_num = push_sta(st_num, buf_num, 0);
+          st_num = push_sta(st_num, buf_num, 0); //  Выполнить расчёт
         }
       }
       position++;
@@ -261,7 +267,7 @@ int main(void) {
   int a = 70;
   double result = 0.0;
   printf("Кодировка тригонометрических функций %c \n", (char)a);
-  const char *arr = "3.5556665+B5+5.51*6/F2+5*4+3^6-4*3/2";
+  const char *arr = "3.5556-29M5+5.51*6/F2+5*4+3^6-4*3/2";
   if (validator(arr) == 0)
     result = calc(arr);
   else

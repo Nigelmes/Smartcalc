@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define OPERATIONS  "+-/*%^@ABCDEFGH()"
+#define OPERATIONS  "+-/*M^@ABCDEFGH()"
 
 typedef struct Node_stack {
   double val_dub;
