@@ -224,10 +224,10 @@ double math_operations(stack_type **num_sta, stack_type **oper_sta) {
   return buf_num;
 }
 
-int unar_minus_check(char check, stack_type * oper_st, int position) {
+int unar_minus_check(char check, stack_type *oper_st, int position) {
   int unar_minus_find = 0;
   if (oper_st == NULL && check == '-' && !position) {
-      unar_minus_find = 1;
+    unar_minus_find = 1;
   } else if (oper_st != NULL) {
     if (check == '-' && oper_st->val_dub == '(')
       unar_minus_find = 1;
@@ -248,7 +248,7 @@ double calc(const char *calculation_src) {
           //  Если пришла скобка закр а в стеке скобка откр
           st_oper = del_point(st_oper);
           st_buf.val_dub = 0.0;
-         } else if (unar_minus_check(st_buf.val_dub, st_oper, position)) {
+        } else if (unar_minus_check(st_buf.val_dub, st_oper, position)) {
           unar_minus = 1;
           st_buf.val_dub = 0.0;
         } else if (st_oper == NULL ||
@@ -270,7 +270,7 @@ double calc(const char *calculation_src) {
         st_num = push_sta(st_num, st_buf.val_dub * (-1), st_buf.prio);
         unar_minus = 0;
       } else {
-      st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
+        st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
       }
     }
   }
@@ -292,7 +292,7 @@ int main(void) {
   int a = 70;
   double result = 0.0;
   printf("Кодировка тригонометрических функций %c = %d \n", (char)a, a);
-  const char *arr = "-3.5556-29-5+5.51*(6/(-2+5)*4+3^6)-4*3/2";
+  const char *arr = "3.5556-29-5+5.51*(6/(-2+5)*(4+(-3^6)))-4*3/2";
   if (validator(arr) == 0)
     result = calc(arr);
   else
