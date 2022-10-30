@@ -12,15 +12,12 @@ int validator(const char *str) {
   while (str[i]) {
     if (str[i] == '(') {
       operand++;
-      if (strchr("+-/*^M@ABCDEFGH", str[i - 1]) == NULL)
-        errcode = 1;
+      if (strchr("+-/*^M@ABCDEFGH", str[i - 1]) == NULL) errcode = 1;
     }
-    if (str[i] == ')')
-      operand--;
+    if (str[i] == ')') operand--;
     i++;
   }
-  if (operand != 0)
-    errcode = 1;
+  if (operand != 0) errcode = 1;
   return errcode;
 }
 
@@ -49,7 +46,7 @@ stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
 
 int buffering_number(
     const char *src_string,
-    char *out) { //  Сборка числа в строку, возвращает длинну числа
+    char *out) {  //  Сборка числа в строку, возвращает длинну числа
   int i = 0;
   while ((src_string[i] >= '0' && src_string[i] <= '9') ||
          src_string[i] == '.') {
@@ -60,7 +57,7 @@ int buffering_number(
 }
 
 int position_counter(
-    char src_string) { //  Подсчёт позиции операции строке приоритетов
+    char src_string) {  //  Подсчёт позиции операции строке приоритетов
   char *operators = OPERATIONS;
   int counter = 0;
   while (operators[counter]) {
@@ -72,13 +69,13 @@ int position_counter(
   return counter + 1;
 }
 
-int prio_check(char src_string) { //  Определение приоритета опреатора
+int prio_check(char src_string) {  //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
   if (position_num == 18)
     prior = 0;
-  else if (position_num == 17) //  Низкий приоритет для закрывающей скобки
-    prior = 1; //  запустит подсчёт
+  else if (position_num == 17)  //  Низкий приоритет для закрывающей скобки
+    prior = 1;  //  запустит подсчёт
   else if (position_num == 16)
     prior = 5;
   else if (position_num > 6)
@@ -102,7 +99,7 @@ int prio_check(char src_string) { //  Определение приоритет�
 Корень - это частный случай степени. */
 
 stack_type parser_uno(const char *calculation_src,
-                      int *position) { //  Парсер одной лексеммы
+                      int *position) {  //  Парсер одной лексеммы
   stack_type stack1 = {0};
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
@@ -151,24 +148,24 @@ stack_type *del_point(stack_type *stack1) {
 double simple_math(double second_num, double first_num, char operation) {
   double out_num = 0.0;
   switch (operation) {
-  case '+':
-    out_num = first_num + second_num;
-    break;
-  case '-':
-    out_num = first_num - second_num;
-    break;
-  case '*':
-    out_num = first_num * second_num;
-    break;
-  case '/':
-    out_num = first_num / second_num;
-    break;
-  case '^':
-    out_num = pow(first_num, second_num);
-    break;
-  case 'M':
-    out_num = fmod(first_num, second_num);
-    break;
+    case '+':
+      out_num = first_num + second_num;
+      break;
+    case '-':
+      out_num = first_num - second_num;
+      break;
+    case '*':
+      out_num = first_num * second_num;
+      break;
+    case '/':
+      out_num = first_num / second_num;
+      break;
+    case '^':
+      out_num = pow(first_num, second_num);
+      break;
+    case 'M':
+      out_num = fmod(first_num, second_num);
+      break;
   }
   return out_num;
 }
@@ -177,33 +174,33 @@ double simple_math(double second_num, double first_num, char operation) {
 double trigon_calc(double x, char operation) {
   double buf_num = 0.0;
   switch (operation) {
-  case COS:
-    buf_num = cos(x);
-    break;
-  case SIN:
-    buf_num = sin(x);
-    break;
-  case TAN:
-    buf_num = tan(x);
-    break;
-  case ACOS:
-    buf_num = acos(x);
-    break;
-  case ASIN:
-    buf_num = asin(x);
-    break;
-  case ATAN:
-    buf_num = atan(x);
-    break;
-  case SQRT:
-    buf_num = sqrt(x);
-    break;
-  case LN:
-    buf_num = log(x);
-    break;
-  case LOG:
-    buf_num = log10(x);
-    break;
+    case COS:
+      buf_num = cos(x);
+      break;
+    case SIN:
+      buf_num = sin(x);
+      break;
+    case TAN:
+      buf_num = tan(x);
+      break;
+    case ACOS:
+      buf_num = acos(x);
+      break;
+    case ASIN:
+      buf_num = asin(x);
+      break;
+    case ATAN:
+      buf_num = atan(x);
+      break;
+    case SQRT:
+      buf_num = sqrt(x);
+      break;
+    case LN:
+      buf_num = log(x);
+      break;
+    case LOG:
+      buf_num = log10(x);
+      break;
   }
   return buf_num;
 }
@@ -224,62 +221,57 @@ double math_operations(stack_type **num_sta, stack_type **oper_sta) {
   return buf_num;
 }
 
-int unar_minus_check(char check, stack_type *oper_st, int position) {
+int unar_check(char check, const char *oper_st, int position) {
   int unar_minus_find = 0;
-  if (oper_st == NULL && check == '-' && !position) {
-    unar_minus_find = 1;
-  } else if (oper_st != NULL) {
-    if (check == '-' && oper_st->val_dub == '(')
-      unar_minus_find = 1;
-  }
+  if ((check == '-' || check == '+') && !position) unar_minus_find = 1;
+  if ((check == '-' || check == '+') && position > 0)
+    if (oper_st[position - 1] == '(') unar_minus_find = 1;
   return unar_minus_find;
 }
 
 double calc(const char *calculation_src) {
-  int position = 0, unar_minus = 0;
+  int position = 0;
   stack_type *st_oper = NULL;
   stack_type *st_num = NULL;
-  while (calculation_src[position]) { //  Главный цикл вычисления
+  while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type st_buf =
-        parser_uno(calculation_src, &position); //  Парсим одну лексемму
-    if (st_buf.prio) { //  Если получили операцию или скобку
+        parser_uno(calculation_src, &position);  //  Парсим одну лексемму
+    if (st_buf.prio) {  //  Если получили операцию или скобку
       while (st_buf.val_dub) {
         if (st_buf.val_dub == ')' && st_oper->val_dub == '(') {
           //  Если пришла скобка закр а в стеке скобка откр
           st_oper = del_point(st_oper);
           st_buf.val_dub = 0.0;
-        } else if (unar_minus_check(st_buf.val_dub, st_oper, position)) {
-          unar_minus = 1;
+        } else if (unar_check(st_buf.val_dub, calculation_src, position)) {
+          st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
+          st_num = push_sta(st_num, 0.0, 0);
           st_buf.val_dub = 0.0;
         } else if (st_oper == NULL ||
-                   st_oper->val_dub == '(') { // Если стэк пуст или в нём скобка
+                   st_oper->val_dub ==
+                       '(') {  // Если стэк пуст или в нём скобка
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
           st_buf.val_dub = 0.0;
-        } else if (st_buf.prio > st_oper->prio) { //  Если приоритет опреации
+        } else if (st_buf.prio > st_oper->prio) {  //  Если приоритет опреации
           st_oper = push_sta(st_oper, st_buf.val_dub,
-                             st_buf.prio); //  больше приоритета
-          st_buf.val_dub = 0.0;            //  в стеке
+                             st_buf.prio);  //  больше приоритета
+          st_buf.val_dub = 0.0;             //  в стеке
         } else {
           double buf_num = math_operations(&st_num, &st_oper);
-          st_num = push_sta(st_num, buf_num, 0); //  Выполнить расчёт
+          st_num = push_sta(st_num, buf_num, 0);  //  Выполнить расчёт
         }
       }
       position++;
-    } else { //  Если получили число
-      if (unar_minus) {
-        st_num = push_sta(st_num, st_buf.val_dub * (-1), st_buf.prio);
-        unar_minus = 0;
-      } else {
-        st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
-      }
+    } else {  //  Если получили число
+      st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
     }
   }
-  while (st_num->next != NULL) { //  Расчёт оставшегося содержимого стеков
+  while (st_num->next != NULL) {  //  Расчёт оставшегося содержимого стеков
     double buf_num = math_operations(&st_num, &st_oper);
     st_num = push_sta(st_num, buf_num, 0);
   }
-  printf("Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
-         "только одно число");
+  printf(
+      "Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
+      "только одно число");
   print_from_node(st_num);
   print_from_node(st_oper);
   double result = st_num->val_dub;
@@ -292,7 +284,7 @@ int main(void) {
   int a = 70;
   double result = 0.0;
   printf("Кодировка тригонометрических функций %c = %d \n", (char)a, a);
-  const char *arr = "3.5556-29-5+5.51*(6/(-2+5)*(4+(-3^6)))-4*3/2";
+  const char *arr = "-3.5556*29-5+4*6+5.51*(+6/(2+5)*(+4+(-3^6)))-4*3/2";
   if (validator(arr) == 0)
     result = calc(arr);
   else
