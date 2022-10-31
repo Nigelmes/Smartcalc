@@ -1,11 +1,5 @@
 #include "s21_smartcalc.h"
 
-// typedef struct N {
-//   double val;
-//   int prio;
-//   struct N* next;
-// } N;
-
 int validator(const char *str) {
   int errcode = 0;
   int operand = 0, i = 0;
