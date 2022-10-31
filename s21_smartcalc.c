@@ -244,7 +244,7 @@ double calc(const char *calculation_src) {
           st_buf.val_dub = 0.0;
         } else if (unar_check(st_buf.val_dub, calculation_src, position)) {
           st_oper = push_sta(st_oper, st_buf.val_dub, st_buf.prio);
-          st_num = push_sta(st_num, 0.0, 0);
+          st_num = push_sta(st_num, 0.0, 0);  //  Получили унарный знак
           st_buf.val_dub = 0.0;
         } else if (st_oper == NULL || st_oper->val_dub == '(') {
           // Если стэк пуст или в нём скобка
