@@ -28,7 +28,7 @@ c:
 	make t
 
 clean:
-	rm -rf calc.dSYM calc t
+	rm -rf calc.dSYM calc t *.o
 
 s21_smartcalc.a: s21_smartcalc.o
 	ar -rc ./s21_smartcalc.a s21_smartcalc.o
