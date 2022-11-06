@@ -287,7 +287,7 @@ double start_calc(void) {
   return result;
 }
 
-int main(viod) {
-  start_calc();
-  return 0;
-}
+// int main(viod) {
+//   start_calc();
+//   return 0;
+// }

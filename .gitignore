@@ -54,3 +54,4 @@ dkms.conf
 # My files
 .clang-format
 t
+build-cppfront-Desktop_x86_darwin_generic_mach_o_64bit-Debug
