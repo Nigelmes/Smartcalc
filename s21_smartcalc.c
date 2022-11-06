@@ -273,7 +273,7 @@ double calc(const char *calculation_src) {
   return result;
 }
 
-int main(void) {
+double start_calc(void) {
   int a = 70;
   double result = 0.0;
   printf("Кодировка тригонометрических функций %c = %d \n", (char)a, a);
@@ -284,5 +284,10 @@ int main(void) {
     printf("Ошибка");
   printf("%s \n", arr);
   printf("Равно %0.7lf\n", result);
+  return result;
+}
+
+int main(viod) {
+  start_calc();
   return 0;
 }

@@ -13,8 +13,8 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    ../s21_smartcalc.h \
-    mainwindow.h
+    mainwindow.h \
+    s21_smartcalc.h
 
 FORMS += \
     mainwindow.ui
@@ -24,9 +24,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix: LIBS += -L$$PWD/../ -l_smartcalc
+unix: LIBS += -L$$PWD/./ -l_smartcalc
 
-INCLUDEPATH += $$PWD/../
-DEPENDPATH += $$PWD/../
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
 
-unix: PRE_TARGETDEPS += $$PWD/../lib_smartcalc.a
+unix: PRE_TARGETDEPS += $$PWD/./lib_smartcalc.a
