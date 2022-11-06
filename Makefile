@@ -29,3 +29,10 @@ c:
 
 clean:
 	rm -rf calc.dSYM calc t
+
+s21_smartcalc.a: s21_smartcalc.o
+	ar -rc ./s21_smartcalc.a s21_smartcalc.o
+	ranlib ./s21_smartcalc.a
+
+s21_smartcalc.o:
+	$(CC) $(CFLAGS) -c s21_smartcalc.c -lm
