@@ -10,11 +10,12 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    s21_smartcalc.c
 
 HEADERS += \
     mainwindow.h \
-    s21_smartcalc.h
+    smartcalc.h
 
 FORMS += \
     mainwindow.ui

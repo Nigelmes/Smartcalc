@@ -2,14 +2,14 @@
 
 #include <QApplication>
 
-#include "s21_smartcalc.h"
+#include "smartcalc.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    double result = start_calc();
+    double result = simple_math(5.5, 6.6, '+');
     printf("%lf", result);
     return a.exec();
 }
