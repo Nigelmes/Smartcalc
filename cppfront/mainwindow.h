@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 
+extern "C" {
+   #include "smartcalc.h"
+}
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,5 +24,8 @@ private:
 
 private slots:
     void digits_numbers();
+    void AC_button();
+    void func_button();
+    void equals_button();
 };
 #endif // MAINWINDOW_H

@@ -10,8 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    s21_smartcalc.c
+    mainwindow.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -25,9 +24,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-unix: LIBS += -L$$PWD/./ -l_smartcalc
+macx: LIBS += -L$$PWD/./ -l_smartcalc
 
 INCLUDEPATH += $$PWD/.
 DEPENDPATH += $$PWD/.
 
-unix: PRE_TARGETDEPS += $$PWD/./lib_smartcalc.a
+macx: PRE_TARGETDEPS += $$PWD/./lib_smartcalc.a
