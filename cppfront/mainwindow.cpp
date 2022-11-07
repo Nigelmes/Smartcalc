@@ -62,7 +62,11 @@ void MainWindow::AC_button() {
 
 void MainWindow::equals_button() {
 
-    double res = calc((const char *)(ui->result));
+    QByteArray ba = (ui->result->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data();
+
+    double res = calc(c_str2);
 
     QString new_lable;
 
