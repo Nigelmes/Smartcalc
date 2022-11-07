@@ -1,4 +1,4 @@
-#include "smartcalc.h"
+#include "s21_smartcalc.h"
 
 int validator(const char *str) {
   int errcode = 0;
@@ -223,6 +223,14 @@ int unar_check(char check, const char *oper_st, int position) {
   return unar_minus_find;
 }
 
+int bracket_finder(stack_type * oper) {
+    int finded = 0;
+    if(oper != NULL)
+        if(oper->val_dub == '(')
+            finded = 1;
+    return finded;
+}
+
 double calc(const char *calculation_src) {
   int position = 0;
   stack_type *st_oper = NULL;
@@ -232,7 +240,7 @@ double calc(const char *calculation_src) {
         parser_uno(calculation_src, &position);  //  Парсим одну лексемму
     if (st_buf.prio) {  //  Если получили операцию или скобку
       while (st_buf.val_dub) {
-        if (st_buf.val_dub == ')' && st_oper->val_dub == '(') {
+        if (st_buf.val_dub == ')' && bracket_finder(st_oper)) {
           //  Если пришла скобка закр а в стеке скобка откр
           st_oper = del_point(st_oper);
           st_buf.val_dub = 0.0;
@@ -258,8 +266,9 @@ double calc(const char *calculation_src) {
       st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
     }
   }
-  while (st_num->next != NULL) {  //  Расчёт оставшегося содержимого стеков
+  while (st_oper != NULL) {  //  Расчёт оставшегося содержимого стеков
     double buf_num = math_operations(&st_num, &st_oper);
+
     st_num = push_sta(st_num, buf_num, 0);
   }
   printf(
@@ -273,21 +282,15 @@ double calc(const char *calculation_src) {
   return result;
 }
 
-double start_calc(void) {
-  int a = 70;
+double start_calc(const char * src) {
   double result = 0.0;
-  printf("Кодировка тригонометрических функций %c = %d \n", (char)a, a);
-  const char *arr = "-3.5556*@29-5+4*6+5.51*(+6/(2+5)*(+4+(-3^6)))-4*3/2";
-  if (validator(arr) == 0)
-    result = calc(arr);
+  printf("resourse %s ", src);
+//  const char *arr = "-3.5556*@29-5+4*6+5.51*(+6/(2+5)*(+4+(-3^6)))-4*3/2";
+  if (validator(src) == 0)
+    result = calc(src);
   else
     printf("Ошибка");
-  printf("%s \n", arr);
+  printf("%s \n", src);
   printf("Равно %0.7lf\n", result);
   return result;
 }
-
-// int main(viod) {
-//   start_calc();
-//   return 0;
-// }

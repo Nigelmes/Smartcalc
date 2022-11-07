@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 extern "C" {
-   #include "smartcalc.h"
+   #include "s21_smartcalc.h"
 }
 
 QT_BEGIN_NAMESPACE
@@ -27,5 +27,7 @@ private slots:
     void AC_button();
     void func_button();
     void equals_button();
+    void X_button();
+    void simp_math_button();
 };
 #endif // MAINWINDOW_H

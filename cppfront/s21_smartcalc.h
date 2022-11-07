@@ -42,6 +42,6 @@ double trigon_calc(double x, char operation);
 double math_operations(stack_type **num_sta, stack_type **oper_sta);
 int unar_check(char check, const char *oper_st, int position);
 double calc(const char *calculation_src);
-double start_calc(void);
+double start_calc(const char * src);
 
 #endif  // SRC_S21_SMARTCALC_H_

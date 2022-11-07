@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+//  Кнопки с цифрами
     connect(ui->push_0,SIGNAL(clicked()),this,SLOT(digits_numbers()));
     connect(ui->push_1,SIGNAL(clicked()),this,SLOT(digits_numbers()));
     connect(ui->push_2,SIGNAL(clicked()),this,SLOT(digits_numbers()));
@@ -17,18 +17,33 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->push_7,SIGNAL(clicked()),this,SLOT(digits_numbers()));
     connect(ui->push_8,SIGNAL(clicked()),this,SLOT(digits_numbers()));
     connect(ui->push_9,SIGNAL(clicked()),this,SLOT(digits_numbers()));
+//  Рабочие кнопки
     connect(ui->push_AC,SIGNAL(clicked()),this,SLOT(AC_button()));
     connect(ui->push_ravno,SIGNAL(clicked()),this,SLOT(equals_button()));
+//  Тригонометрия
     connect(ui->push_cos,SIGNAL(clicked()),this,SLOT(func_button()));
     connect(ui->push_sin,SIGNAL(clicked()),this,SLOT(func_button()));
     connect(ui->push_tan,SIGNAL(clicked()),this,SLOT(func_button()));
     connect(ui->push_acos,SIGNAL(clicked()),this,SLOT(func_button()));
     connect(ui->push_asin,SIGNAL(clicked()),this,SLOT(func_button()));
     connect(ui->push_atan,SIGNAL(clicked()),this,SLOT(func_button()));
-    connect(ui->push_plus,SIGNAL(clicked()),this,SLOT(func_button()));
-    connect(ui->push_minus,SIGNAL(clicked()),this,SLOT(func_button()));
-    connect(ui->push_mult,SIGNAL(clicked()),this,SLOT(func_button()));
-    connect(ui->push_div,SIGNAL(clicked()),this,SLOT(func_button()));
+    connect(ui->push_log,SIGNAL(clicked()),this,SLOT(func_button()));
+    connect(ui->push_ln,SIGNAL(clicked()),this,SLOT(func_button()));
+    connect(ui->push_sqrt,SIGNAL(clicked()),this,SLOT(func_button()));
+//  Простые операции
+    connect(ui->push_plus,SIGNAL(clicked()),this,SLOT(simp_math_button()));
+    connect(ui->push_minus,SIGNAL(clicked()),this,SLOT(simp_math_button()));
+    connect(ui->push_mult,SIGNAL(clicked()),this,SLOT(simp_math_button()));
+    connect(ui->push_div,SIGNAL(clicked()),this,SLOT(simp_math_button()));
+    connect(ui->push_mod,SIGNAL(clicked()),this,SLOT(simp_math_button()));
+    connect(ui->push_stepen,SIGNAL(clicked()),this,SLOT(simp_math_button()));
+//  Скобки
+    connect(ui->push_leftscob,SIGNAL(clicked()),this,SLOT(func_button()));
+    connect(ui->push_rightscob,SIGNAL(clicked()),this,SLOT(func_button()));
+//  Икс
+    connect(ui->push_X,SIGNAL(clicked()),this,SLOT(X_button()));
+//  Точка
+    connect(ui->push_dot,SIGNAL(clicked()),this,SLOT(digits_numbers()));
 }
 
 MainWindow::~MainWindow()
@@ -43,12 +58,17 @@ void MainWindow::digits_numbers() {
     if(ui->result->text() == "0") {
 
         ui->result->setText(button->text());
+        ui->result_code->setText(button->text());
 
     } else {
 
         new_lable = ui->result->text() + button->text();
 
         ui->result->setText(new_lable);
+
+        new_lable = ui->result_code->text() + button->text();
+
+        ui->result_code->setText(new_lable);
     }
 }
 
@@ -58,22 +78,26 @@ void MainWindow::AC_button() {
 
     ui->result->setText(new_lable);
 
+    ui->result_code->setText(new_lable);
 }
 
 void MainWindow::equals_button() {
 
-    QByteArray ba = (ui->result->text()).toLocal8Bit();
+    if(ui->result->text() != 0) {
 
-    const char *c_str2 = ba.data();
+        QByteArray ba = (ui->result_code->text()).toLocal8Bit();
 
-    double res = calc(c_str2);
+        const char *c_str2 = ba.data();
 
-    QString new_lable;
+        double res = start_calc(c_str2);
 
-    new_lable = QString::number(res, 'g', 15);
+        QString new_lable;
 
-    ui->result->setText(new_lable);
+        new_lable = QString::number(res, 'g', 15);
 
+        ui->result->setText(new_lable);
+        ui->result_code->setText(new_lable);
+    }
 }
 
 void MainWindow::func_button() {
@@ -91,6 +115,37 @@ void MainWindow::func_button() {
         new_lable = ui->result->text() + button->text();
 
         ui->result->setText(new_lable);
+
+        new_lable = ui->result_code->text() + button->whatsThis();
+
+        ui->result_code->setText(new_lable);
     }
+
+}
+
+void MainWindow::simp_math_button() {
+
+    QPushButton *button = (QPushButton *)sender();
+
+    QString new_lable;
+    if(ui->result->text() == "0") {
+
+        ui->result->setText(button->text());
+        ui->result_code->setText(button->whatsThis());
+
+    } else {
+
+        new_lable = ui->result->text() + button->text();
+
+        ui->result->setText(new_lable);
+
+        new_lable = ui->result_code->text() + button->whatsThis();
+
+        ui->result_code->setText(new_lable);
+    }
+
+}
+
+void MainWindow::X_button() {
 
 }
