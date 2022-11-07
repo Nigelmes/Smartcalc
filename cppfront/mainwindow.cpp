@@ -44,6 +44,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->push_X,SIGNAL(clicked()),this,SLOT(X_button()));
 //  Точка
     connect(ui->push_dot,SIGNAL(clicked()),this,SLOT(digits_numbers()));
+    h = 0.1;
+    xBegin = -3;
+    xEnd = 3 +h;
+
+    ui->widget->xAxis->setRange(-4, 4);
+    ui->widget->yAxis->setRange(0, 9);
+    N = (xEnd - xBegin)/h + 2;
+
+    for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
+        x.push_back(X);
+
+//        double calc_y = start_calc();
+        y.push_back(X*X); //  Формула для заполнения у
+    }
+    ui->widget->addGraph();
+    ui->widget->graph(0)->addData(x, y);
+    ui->widget->replot();
 }
 
 MainWindow::~MainWindow()

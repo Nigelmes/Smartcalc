@@ -271,12 +271,15 @@ double calc(const char *calculation_src) {
 
     st_num = push_sta(st_num, buf_num, 0);
   }
-  printf(
-      "Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
-      "только одно число");
-  print_from_node(st_num);
-  print_from_node(st_oper);
-  double result = st_num->val_dub;
+//  printf(
+//      "Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
+//      "только одно число");
+//  print_from_node(st_num);
+//  print_from_node(st_oper);
+  double result = 0.0;
+  if(st_num != NULL) {
+    result = st_num->val_dub;
+  }
   destroy_node(st_num);
   destroy_node(st_oper);
   return result;
@@ -290,7 +293,7 @@ double start_calc(const char * src) {
     result = calc(src);
   else
     printf("Ошибка");
-  printf("%s \n", src);
-  printf("Равно %0.7lf\n", result);
+//  printf("%s \n", src);
+//  printf("Равно %0.7lf\n", result);
   return result;
 }
