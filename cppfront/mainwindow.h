@@ -23,7 +23,7 @@ public:
 private:
     Ui::MainWindow *ui;
     double xBegin, xEnd, h, X;
-    int N;
+//    int N;
     QVector<double> x, y;
 
 private slots:

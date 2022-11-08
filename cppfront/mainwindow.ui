@@ -733,6 +733,9 @@ background-color : white;</string>
     <property name="cursor">
      <cursorShape>ArrowCursor</cursorShape>
     </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -795,10 +798,10 @@ background-color : white;</string>
      <bool>false</bool>
     </property>
     <property name="text">
-     <string>10</string>
+     <string>-17</string>
     </property>
     <property name="readOnly">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="placeholderText">
      <string/>
@@ -829,10 +832,10 @@ background-color : white;</string>
      <set>Qt::ImhNone</set>
     </property>
     <property name="text">
-     <string>10</string>
+     <string>-15</string>
     </property>
     <property name="readOnly">
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
     <property name="placeholderText">
      <string/>
@@ -896,7 +899,7 @@ background-color : white;</string>
      <bool>false</bool>
     </property>
     <property name="text">
-     <string>10</string>
+     <string>17</string>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
@@ -918,7 +921,7 @@ background-color : white;</string>
      <bool>false</bool>
     </property>
     <property name="text">
-     <string>10</string>
+     <string>15</string>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>

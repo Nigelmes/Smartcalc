@@ -129,18 +129,21 @@ void MainWindow::equals_button() {
 
 void MainWindow::graf_button() {
 
-    if(ui->result->text() != 0) {    
+    if(ui->result->text() != 0) {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
 
-    h = 0.1;
-    xBegin = -15;
-    xEnd = 15 + h;
+    h = 0.3;
+    xBegin = ui->line_X_from->text().toDouble();
+    xEnd = ui->line_X_to->text().toDouble();
+    double Y_from = ui->line_Y_from->text().toDouble();
+    double X_from = ui->line_Y_to->text().toDouble();
 
-    ui->widget_graf->xAxis->setRange(-17, 17);
-    ui->widget_graf->yAxis->setRange(-10, 10);
-    N = (xEnd - xBegin)/h + 2;
+
+    ui->widget_graf->xAxis->setRange(xBegin, xEnd);
+    ui->widget_graf->yAxis->setRange(Y_from, X_from);
+//    N = (xEnd - xBegin)/h + 2;
 
     for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
         x.push_back(X);
@@ -150,15 +153,14 @@ void MainWindow::graf_button() {
     ui->widget_graf->graph(0)->addData(x, y);
     ui->widget_graf->replot();
     ui->widget_graf->graph(0)->data()->clear();
-    for(X = xBegin; X <= xEnd; X += h){  //  Очищаем координаты
-        x.pop_back();
-        y.pop_back();
-    }
+      //  Очищаем координаты
+    x.clear();
+    y.clear();
+
 
   }
 
 }
-
 
 void MainWindow::func_button() {
 
@@ -205,4 +207,3 @@ void MainWindow::simp_math_button() {
     }
 
 }
-
