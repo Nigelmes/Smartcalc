@@ -33,5 +33,6 @@ private slots:
     void equals_button();
     void X_button();
     void simp_math_button();
+    void graf_button();
 };
 #endif // MAINWINDOW_H

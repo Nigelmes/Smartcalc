@@ -6,7 +6,7 @@ int validator(const char *str) {
   while (str[i]) {
     if (str[i] == '(') {
       operand++;
-      if (strchr("+-/*^M@ABCDEFGHX", str[i - 1]) == NULL) errcode = 1;
+      if (strchr("+-/*^M@ABCDEFGH", str[i - 1]) == NULL) errcode = 1;
     }
     if (str[i] == ')') operand--;
     i++;
@@ -60,58 +60,51 @@ int position_counter(
     }
     counter++;
   }
-  return counter;
+  return counter + 1;
 }
 
 int prio_check(char src_string) {  //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
-  if (position_num > 16)
+  if (position_num == 18)
     prior = 0;
+  else if (position_num == 17)  //  Низкий приоритет для закрывающей скобки
+    prior = 1;  //  запустит подсчёт
   else if (position_num == 16)
     prior = 5;
   else if (position_num > 6)
     prior = 4;
-  else if (position_num == 6)
+  else if (position_num > 5)
     prior = 3;
   else if (position_num > 2)
     prior = 2;
   else if (position_num > 0)
     prior = 1;
-//  Низкий приоритет для закрывающей скобки
-//  запустит подсчёт
   return prior;
 }
 
-/*   1: +,-
-     2: *,/,mod(остаток от деления)
-     3: ^
-     4: cos,sin,tg,ctg,ln,log,!
-     5: ()
-     0: X
+/*   1 +,-
+2 *,/,mod(остаток от деления)
+3 ^
+4 cos,sin,tg,ctg,ln,log,!
+5 ()
 
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
 
 stack_type parser_uno(const char *calculation_src,
-                      int *position, double X_num) {  //  Парсер одной лексеммы
+                      int *position) {  //  Парсер одной лексеммы
   stack_type stack1 = {0};
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
     stack1.prio = prio;
     stack1.val_dub = calculation_src[*position];
   } else {
-    if(calculation_src[*position] == 'X') {
-      stack1.prio = 0;
-      stack1.val_dub = X_num;
-      *position += 1;
-    } else {
-      char buf[256] = {0};
-      *position = *position + buffering_number(&calculation_src[*position], buf);
-      double tess = atof(buf);
-      stack1.prio = prio;
-      stack1.val_dub = tess;
-    }
+    char buf[256] = {0};
+    *position = *position + buffering_number(&calculation_src[*position], buf);
+    double tess = atof(buf);
+    stack1.prio = prio;
+    stack1.val_dub = tess;
   }
   return stack1;
 }
@@ -230,24 +223,16 @@ int unar_check(char check, const char *oper_st, int position) {
   return unar_minus_find;
 }
 
-int bracket_finder(stack_type * oper) {
-    int finded = 0;
-    if(oper != NULL)
-        if(oper->val_dub == '(')
-            finded = 1;
-    return finded;
-}
-
-double calc(const char *calculation_src, double X_num) {
+double calc(const char *calculation_src) {
   int position = 0;
   stack_type *st_oper = NULL;
   stack_type *st_num = NULL;
   while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type st_buf =
-        parser_uno(calculation_src, &position, X_num);  //  Парсим одну лексемму
+        parser_uno(calculation_src, &position);  //  Парсим одну лексемму
     if (st_buf.prio) {  //  Если получили операцию или скобку
       while (st_buf.val_dub) {
-        if (st_buf.val_dub == ')' && bracket_finder(st_oper)) {
+        if (st_buf.val_dub == ')' && st_oper->val_dub == '(') {
           //  Если пришла скобка закр а в стеке скобка откр
           st_oper = del_point(st_oper);
           st_buf.val_dub = 0.0;
@@ -273,25 +258,36 @@ double calc(const char *calculation_src, double X_num) {
       st_num = push_sta(st_num, st_buf.val_dub, st_buf.prio);
     }
   }
-  while (st_oper != NULL) {  //  Расчёт оставшегося содержимого стеков
+  while (st_num->next != NULL) {  //  Расчёт оставшегося содержимого стеков
     double buf_num = math_operations(&st_num, &st_oper);
-
     st_num = push_sta(st_num, buf_num, 0);
   }
-  double result = 0.0;
-  if(st_num != NULL) {
-    result = st_num->val_dub;
-  }
+  printf(
+      "Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
+      "только одно число");
+  print_from_node(st_num);
+  print_from_node(st_oper);
+  double result = st_num->val_dub;
   destroy_node(st_num);
+  destroy_node(st_oper);
   return result;
 }
 
-double start_calc(const char * src, double X_num) {
+double start_calc(void) {
+  int a = 70;
   double result = 0.0;
-  printf("resourse %s ", src);
-  if (validator(src) == 0)
-    result = calc(src, X_num);
+  printf("Кодировка тригонометрических функций %c = %d \n", (char)a, a);
+  const char *arr = "-3.5556*@29-5+4*6+5.51*(+6/(2+5)*(+4+(-3^6)))-4*3/2";
+  if (validator(arr) == 0)
+    result = calc(arr);
   else
     printf("Ошибка");
+  printf("%s \n", arr);
+  printf("Равно %0.7lf\n", result);
   return result;
 }
+
+// int main(viod) {
+//   start_calc();
+//   return 0;
+// }

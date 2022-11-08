@@ -12,7 +12,7 @@ g: clean
 	git push origin leftrana
 
 test: clean
-	$(CC) $(CFLAGS) t.c -o t $(LFLAG)
+	$(CC) $(CFLAGS) t.c s21_smartcalc.c -o t $(LFLAG)
 	./t
 
 t: clean

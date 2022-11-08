@@ -6,7 +6,7 @@ int validator(const char *str) {
   while (str[i]) {
     if (str[i] == '(') {
       operand++;
-      if (strchr("+-/*^M@ABCDEFGH", str[i - 1]) == NULL) errcode = 1;
+      if (strchr("+-/*^M@ABCDEFGHX", str[i - 1]) == NULL) errcode = 1;
     }
     if (str[i] == ')') operand--;
     i++;
@@ -60,51 +60,58 @@ int position_counter(
     }
     counter++;
   }
-  return counter + 1;
+  return counter;
 }
 
 int prio_check(char src_string) {  //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
-  if (position_num == 18)
+  if (position_num > 16)
     prior = 0;
-  else if (position_num == 17)  //  Низкий приоритет для закрывающей скобки
-    prior = 1;  //  запустит подсчёт
   else if (position_num == 16)
     prior = 5;
   else if (position_num > 6)
     prior = 4;
-  else if (position_num > 5)
+  else if (position_num == 6)
     prior = 3;
   else if (position_num > 2)
     prior = 2;
   else if (position_num > 0)
     prior = 1;
+//  Низкий приоритет для закрывающей скобки
+//  запустит подсчёт
   return prior;
 }
 
-/*   1 +,-
-2 *,/,mod(остаток от деления)
-3 ^
-4 cos,sin,tg,ctg,ln,log,!
-5 ()
+/*   1: +,-
+     2: *,/,mod(остаток от деления)
+     3: ^
+     4: cos,sin,tg,ctg,ln,log,!
+     5: ()
+     0: X
 
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
 
 stack_type parser_uno(const char *calculation_src,
-                      int *position) {  //  Парсер одной лексеммы
+                      int *position, double X_num) {  //  Парсер одной лексеммы
   stack_type stack1 = {0};
   int prio = prio_check(calculation_src[*position]);
   if (prio) {
     stack1.prio = prio;
     stack1.val_dub = calculation_src[*position];
   } else {
-    char buf[256] = {0};
-    *position = *position + buffering_number(&calculation_src[*position], buf);
-    double tess = atof(buf);
-    stack1.prio = prio;
-    stack1.val_dub = tess;
+    if(calculation_src[*position] == 'X') {
+      stack1.prio = 0;
+      stack1.val_dub = X_num;
+      *position += 1;
+    } else {
+      char buf[256] = {0};
+      *position = *position + buffering_number(&calculation_src[*position], buf);
+      double tess = atof(buf);
+      stack1.prio = prio;
+      stack1.val_dub = tess;
+    }
   }
   return stack1;
 }
@@ -231,13 +238,13 @@ int bracket_finder(stack_type * oper) {
     return finded;
 }
 
-double calc(const char *calculation_src) {
+double calc(const char *calculation_src, double X_num) {
   int position = 0;
   stack_type *st_oper = NULL;
   stack_type *st_num = NULL;
   while (calculation_src[position]) {  //  Главный цикл вычисления
     stack_type st_buf =
-        parser_uno(calculation_src, &position);  //  Парсим одну лексемму
+        parser_uno(calculation_src, &position, X_num);  //  Парсим одну лексемму
     if (st_buf.prio) {  //  Если получили операцию или скобку
       while (st_buf.val_dub) {
         if (st_buf.val_dub == ')' && bracket_finder(st_oper)) {
@@ -271,29 +278,20 @@ double calc(const char *calculation_src) {
 
     st_num = push_sta(st_num, buf_num, 0);
   }
-//  printf(
-//      "Содержимое стеков, стек опреаций должен быть пустым, в стеке чисел, "
-//      "только одно число");
-//  print_from_node(st_num);
-//  print_from_node(st_oper);
   double result = 0.0;
   if(st_num != NULL) {
     result = st_num->val_dub;
   }
   destroy_node(st_num);
-  destroy_node(st_oper);
   return result;
 }
 
-double start_calc(const char * src) {
+double start_calc(const char * src, double X_num) {
   double result = 0.0;
   printf("resourse %s ", src);
-//  const char *arr = "-3.5556*@29-5+4*6+5.51*(+6/(2+5)*(+4+(-3^6)))-4*3/2";
   if (validator(src) == 0)
-    result = calc(src);
+    result = calc(src, X_num);
   else
     printf("Ошибка");
-//  printf("%s \n", src);
-//  printf("Равно %0.7lf\n", result);
   return result;
 }

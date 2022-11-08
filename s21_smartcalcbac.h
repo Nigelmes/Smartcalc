@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define OPERATIONS  ")+-/*M^@ABCDEFGH("
+#define OPERATIONS  "+-/*M^@ABCDEFGH()"
 
 typedef struct Node_stack {
   double val_dub;
@@ -33,7 +33,7 @@ double pop_val(stack_type **stack);
 stack_type *push_sta(stack_type *plist, double val_dub, int prio);
 int position_counter(char src_string);
 int prio_check(char src_string);
-stack_type parser_uno(const char *calculation_src, int *position, double X);
+stack_type parser_uno(const char *calculation_src, int *position);
 void print_from_node(stack_type *stack1);
 void destroy_node(stack_type *stack1);
 stack_type *del_point(stack_type *stack1);
@@ -41,7 +41,7 @@ double simple_math(double second_num, double first_num, char operation);
 double trigon_calc(double x, char operation);
 double math_operations(stack_type **num_sta, stack_type **oper_sta);
 int unar_check(char check, const char *oper_st, int position);
-double calc(const char *calculation_src, double X);
-double start_calc(const char * src, double X);
+double calc(const char *calculation_src);
+double start_calc(void);
 
 #endif  // SRC_S21_SMARTCALC_H_

@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
 //  Рабочие кнопки
     connect(ui->push_AC,SIGNAL(clicked()),this,SLOT(AC_button()));
     connect(ui->push_ravno,SIGNAL(clicked()),this,SLOT(equals_button()));
+
+    connect(ui->push_graf,SIGNAL(clicked()),this,SLOT(graf_button()));
 //  Тригонометрия
     connect(ui->push_cos,SIGNAL(clicked()),this,SLOT(func_button()));
     connect(ui->push_sin,SIGNAL(clicked()),this,SLOT(func_button()));
@@ -44,23 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->push_X,SIGNAL(clicked()),this,SLOT(X_button()));
 //  Точка
     connect(ui->push_dot,SIGNAL(clicked()),this,SLOT(digits_numbers()));
-    h = 0.1;
-    xBegin = -3;
-    xEnd = 3 +h;
 
-    ui->widget->xAxis->setRange(-4, 4);
-    ui->widget->yAxis->setRange(0, 9);
-    N = (xEnd - xBegin)/h + 2;
-
-    for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
-        x.push_back(X);
-
-//        double calc_y = start_calc();
-        y.push_back(X*X); //  Формула для заполнения у
-    }
-    ui->widget->addGraph();
-    ui->widget->graph(0)->addData(x, y);
-    ui->widget->replot();
 }
 
 MainWindow::~MainWindow()
@@ -102,11 +88,13 @@ void MainWindow::equals_button() {
 
     if(ui->result->text() != 0) {
 
+        double X = ui->line_X->text().toDouble();
+
         QByteArray ba = (ui->result_code->text()).toLocal8Bit();
 
         const char *c_str2 = ba.data();
 
-        double res = start_calc(c_str2);
+        double res = start_calc(c_str2, X);
 
         QString new_lable;
 
@@ -116,6 +104,46 @@ void MainWindow::equals_button() {
         ui->result_code->setText(new_lable);
     }
 }
+
+void MainWindow::graf_button() {
+
+    if(ui->result->text() != 0) {
+
+        double X = 0.0;
+
+        QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+
+        const char *c_str2 = ba.data();
+
+        double res = start_calc(c_str2, X);
+
+        QString new_lable;
+
+        new_lable = QString::number(res, 'g', 15);
+
+        ui->result->setText(new_lable);
+        ui->result_code->setText(new_lable);
+    }
+
+    h = 0.1;
+    xBegin = -3;
+    xEnd = 3 +h;
+
+    ui->widget->xAxis->setRange(-4, 4);
+    ui->widget->yAxis->setRange(0, 9);
+    N = (xEnd - xBegin)/h + 2;
+
+    for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
+        x.push_back(X);
+
+
+        y.push_back(X*X); //  Формула для заполнения у
+    }
+    ui->widget->addGraph();
+    ui->widget->graph(0)->addData(x, y);
+    ui->widget->replot();
+}
+
 
 void MainWindow::func_button() {
 
