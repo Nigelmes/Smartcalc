@@ -779,7 +779,7 @@ background-color : white;</string>
      <string>X from</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="line_X_from">
     <property name="geometry">
      <rect>
       <x>370</x>
@@ -807,7 +807,7 @@ background-color : white;</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="line_Y_from">
     <property name="geometry">
      <rect>
       <x>370</x>
@@ -880,7 +880,7 @@ background-color : white;</string>
      <string>to</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="line_X_to">
     <property name="geometry">
      <rect>
       <x>500</x>
@@ -902,7 +902,7 @@ background-color : white;</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QLineEdit" name="line_Y_to">
     <property name="geometry">
      <rect>
       <x>500</x>
