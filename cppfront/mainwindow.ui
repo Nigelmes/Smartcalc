@@ -721,7 +721,7 @@ background-color : white;</string>
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QCustomPlot" name="widget" native="true">
+   <widget class="QCustomPlot" name="widget_graf" native="true">
     <property name="geometry">
      <rect>
       <x>320</x>

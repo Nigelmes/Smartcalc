@@ -117,8 +117,8 @@ void MainWindow::graf_button() {
     xBegin = -3;
     xEnd = 3 +h;
 
-    ui->widget->xAxis->setRange(-4, 4);
-    ui->widget->yAxis->setRange(0, 9);
+    ui->widget_graf->xAxis->setRange(-4, 4);
+    ui->widget_graf->yAxis->setRange(0, 9);
     N = (xEnd - xBegin)/h + 2;
 
     for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
@@ -127,9 +127,14 @@ void MainWindow::graf_button() {
 
         y.push_back(start_calc(c_str2, X)); //  Формула для заполнения у
     }
-    ui->widget->addGraph();
-    ui->widget->graph(0)->addData(x, y);
-    ui->widget->replot();
+    ui->widget_graf->addGraph();
+    ui->widget_graf->graph(0)->addData(x, y);
+    ui->widget_graf->replot();
+    for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
+        x.pop_back();
+        y.pop_back(); //  Формула для заполнения у
+    }
+
     }
 }
 
