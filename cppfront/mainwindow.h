@@ -31,8 +31,8 @@ private slots:
     void AC_button();
     void func_button();
     void equals_button();
-    void X_button();
     void simp_math_button();
     void graf_button();
+    void skobki();
 };
 #endif // MAINWINDOW_H

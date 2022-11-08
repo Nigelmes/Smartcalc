@@ -41,10 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->push_mod,SIGNAL(clicked()),this,SLOT(simp_math_button()));
     connect(ui->push_stepen,SIGNAL(clicked()),this,SLOT(simp_math_button()));
 //  Скобки
-    connect(ui->push_leftscob,SIGNAL(clicked()),this,SLOT(func_button()));
-    connect(ui->push_rightscob,SIGNAL(clicked()),this,SLOT(func_button()));
-//  Икс
-    connect(ui->push_X,SIGNAL(clicked()),this,SLOT(X_button()));
+    connect(ui->push_leftscob,SIGNAL(clicked()),this,SLOT(skobki()));
+    connect(ui->push_rightscob,SIGNAL(clicked()),this,SLOT(skobki()));
 //  Точка
     connect(ui->push_dot,SIGNAL(clicked()),this,SLOT(digits_numbers()));
 
@@ -76,6 +74,27 @@ void MainWindow::digits_numbers() {
     }
 }
 
+void MainWindow::skobki() {
+    QPushButton *button = (QPushButton *)sender();
+
+    QString new_lable;
+    if(ui->result->text() == "0") {
+
+        ui->result->setText(button->text());
+        ui->result_code->setText(button->text());
+
+    } else {
+
+        new_lable = ui->result->text() + button->text();
+
+        ui->result->setText(new_lable);
+
+        new_lable = ui->result_code->text() + button->text();
+
+        ui->result_code->setText(new_lable);
+    }
+}
+
 void MainWindow::AC_button() {
 
     QString new_lable = "0";
@@ -83,6 +102,8 @@ void MainWindow::AC_button() {
     ui->result->setText(new_lable);
 
     ui->result_code->setText(new_lable);
+
+    ui->widget_graf->replot();
 }
 
 void MainWindow::equals_button() {
@@ -114,11 +135,11 @@ void MainWindow::graf_button() {
     const char *c_str2 = ba.data();
 
     h = 0.1;
-    xBegin = -3;
-    xEnd = 3 +h;
+    xBegin = -15;
+    xEnd = 15 + h;
 
-    ui->widget_graf->xAxis->setRange(-4, 4);
-    ui->widget_graf->yAxis->setRange(0, 9);
+    ui->widget_graf->xAxis->setRange(-17, 17);
+    ui->widget_graf->yAxis->setRange(-10, 10);
     N = (xEnd - xBegin)/h + 2;
 
     for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
@@ -129,9 +150,9 @@ void MainWindow::graf_button() {
     ui->widget_graf->graph(0)->addData(x, y);
     ui->widget_graf->replot();
     ui->widget_graf->graph(0)->data()->clear();
-    for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
+    for(X = xBegin; X <= xEnd; X += h){  //  Очищаем координаты
         x.pop_back();
-        y.pop_back(); //  Формула для заполнения у
+        y.pop_back();
     }
 
   }
@@ -146,16 +167,16 @@ void MainWindow::func_button() {
     QString new_lable;
     if(ui->result->text() == "0") {
 
-        ui->result->setText(button->text());
-        ui->result_code->setText(button->whatsThis());
+        ui->result->setText(button->text() + '(');
+        ui->result_code->setText(button->whatsThis() + '(');
 
     } else {
 
-        new_lable = ui->result->text() + button->text();
+        new_lable = ui->result->text() + button->text()  + '(';
 
         ui->result->setText(new_lable);
 
-        new_lable = ui->result_code->text() + button->whatsThis();
+        new_lable = ui->result_code->text() + button->whatsThis()  + '(';
 
         ui->result_code->setText(new_lable);
     }
@@ -185,6 +206,3 @@ void MainWindow::simp_math_button() {
 
 }
 
-void MainWindow::X_button() {
-
-}
