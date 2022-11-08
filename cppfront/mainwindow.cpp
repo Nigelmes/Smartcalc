@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->push_7,SIGNAL(clicked()),this,SLOT(digits_numbers()));
     connect(ui->push_8,SIGNAL(clicked()),this,SLOT(digits_numbers()));
     connect(ui->push_9,SIGNAL(clicked()),this,SLOT(digits_numbers()));
+    connect(ui->push_X,SIGNAL(clicked()),this,SLOT(digits_numbers()));
 //  Рабочие кнопки
     connect(ui->push_AC,SIGNAL(clicked()),this,SLOT(AC_button()));
     connect(ui->push_ravno,SIGNAL(clicked()),this,SLOT(equals_button()));

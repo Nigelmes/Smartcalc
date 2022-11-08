@@ -288,7 +288,7 @@ double calc(const char *calculation_src, double X_num) {
 
 double start_calc(const char * src, double X_num) {
   double result = 0.0;
-  printf("resourse %s ", src);
+//  printf("resourse %s ", src);
   if (validator(src) == 0)
     result = calc(src, X_num);
   else
