@@ -60,26 +60,26 @@ int position_counter(
     }
     counter++;
   }
-  return counter;
+  return counter + 1;
 }
 
 int prio_check(char src_string) {  //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
-  if (position_num > 16)
+  if (position_num == 18)
     prior = 0;
+  else if (position_num == 17)  //  Низкий приоритет для закрывающей скобки
+    prior = 1;  //  запустит подсчёт
   else if (position_num == 16)
     prior = 5;
   else if (position_num > 6)
     prior = 4;
-  else if (position_num == 6)
+  else if (position_num > 5)
     prior = 3;
   else if (position_num > 2)
     prior = 2;
   else if (position_num > 0)
     prior = 1;
-//  Низкий приоритет для закрывающей скобки
-//  запустит подсчёт
   return prior;
 }
 

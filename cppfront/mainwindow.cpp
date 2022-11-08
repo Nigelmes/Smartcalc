@@ -108,23 +108,10 @@ void MainWindow::equals_button() {
 
 void MainWindow::graf_button() {
 
-    if(ui->result->text() != 0) {
+    if(ui->result->text() != 0) {    
 
-        double X = 0.0;
-
-        QByteArray ba = (ui->result_code->text()).toLocal8Bit();
-
-        const char *c_str2 = ba.data();
-
-        double res = start_calc(c_str2, X);
-
-        QString new_lable;
-
-        new_lable = QString::number(res, 'g', 15);
-
-        ui->result->setText(new_lable);
-        ui->result_code->setText(new_lable);
-    }
+    QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+    const char *c_str2 = ba.data();
 
     h = 0.1;
     xBegin = -3;
@@ -138,11 +125,12 @@ void MainWindow::graf_button() {
         x.push_back(X);
 
 
-        y.push_back(X*X); //  Формула для заполнения у
+        y.push_back(start_calc(c_str2, X)); //  Формула для заполнения у
     }
     ui->widget->addGraph();
     ui->widget->graph(0)->addData(x, y);
     ui->widget->replot();
+    }
 }
 
 
