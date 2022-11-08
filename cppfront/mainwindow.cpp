@@ -123,19 +123,19 @@ void MainWindow::graf_button() {
 
     for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
         x.push_back(X);
-
-
         y.push_back(start_calc(c_str2, X)); //  Формула для заполнения у
     }
     ui->widget_graf->addGraph();
     ui->widget_graf->graph(0)->addData(x, y);
     ui->widget_graf->replot();
+    ui->widget_graf->graph(0)->data()->clear();
     for(X = xBegin; X <= xEnd; X += h){  //  Заполняем координаты
         x.pop_back();
         y.pop_back(); //  Формула для заполнения у
     }
 
-    }
+  }
+
 }
 
 
