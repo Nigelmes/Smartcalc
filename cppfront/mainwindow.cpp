@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 //  Рабочие кнопки
     connect(ui->push_AC,SIGNAL(clicked()),this,SLOT(AC_button()));
     connect(ui->push_ravno,SIGNAL(clicked()),this,SLOT(equals_button()));
-
     connect(ui->push_graf,SIGNAL(clicked()),this,SLOT(graf_button()));
 //  Тригонометрия
     connect(ui->push_cos,SIGNAL(clicked()),this,SLOT(func_button()));

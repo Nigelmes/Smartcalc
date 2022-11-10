@@ -274,8 +274,10 @@ double calc(const char *calculation_src, double X_num) {
     }
   }
   while (st_oper != NULL) {  //  Расчёт оставшегося содержимого стеков
+    if(st_oper->val_dub == '(') {
+        del_point(st_oper);
+    }
     double buf_num = math_operations(&st_num, &st_oper);
-
     st_num = push_sta(st_num, buf_num, 0);
   }
   double result = 0.0;
