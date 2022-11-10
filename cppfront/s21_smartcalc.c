@@ -4,11 +4,11 @@ int validator(const char *str) {
   int errcode = 0;
   int operand = 0, i = 0;
   while (str[i]) {
-    if (str[i] == '(') {
+    if (str[i] == 'Q') {
       operand++;
       if (strchr("+-/*^M@ABCDEFGHX", str[i - 1]) == NULL) errcode = 1;
     }
-    if (str[i] == ')') operand--;
+    if (str[i] == 'Q') operand--;
     i++;
   }
   if (operand != 0) errcode = 1;
@@ -60,26 +60,28 @@ int position_counter(
     }
     counter++;
   }
-  return counter + 1;
+  return counter;
 }
+
+//  012 345 6 789      16
+//  )+- /*M ^ @ABCDEFGH(
+//  1   2   3 4        5
 
 int prio_check(char src_string) {  //  Определение приоритета опреатора
   int prior = 0;
   int position_num = position_counter(src_string);
-  if (position_num == 18)
+  if (position_num > 16)
     prior = 0;
-  else if (position_num == 17)  //  Низкий приоритет для закрывающей скобки
-    prior = 1;  //  запустит подсчёт
   else if (position_num == 16)
     prior = 5;
   else if (position_num > 6)
     prior = 4;
-  else if (position_num > 5)
+  else if (position_num == 6)
     prior = 3;
   else if (position_num > 2)
     prior = 2;
-  else if (position_num > 0)
-    prior = 1;
+  else if (position_num >= 0)  //  Низкий приоритет для закрывающей скобки
+    prior = 1;                 //  запустит подсчёт
   return prior;
 }
 
@@ -88,7 +90,7 @@ int prio_check(char src_string) {  //  Определение приоритет
      3: ^
      4: cos,sin,tg,ctg,ln,log,!
      5: ()
-     0: X
+     0: X Это фактически число, просто подставим его в парсере
 
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
@@ -140,12 +142,13 @@ void destroy_node(stack_type *stack1) {
   free(Ptrack);
 }
 
-stack_type *del_point(stack_type *stack1) {
+stack_type *del_point(stack_type *stack1) {  //  Удалит последний элемент списка
   stack_type *Ptrack_bac = stack1->next;
   free(stack1);
   return Ptrack_bac;
 }
 
+//  Простые бинарные мат операции (вычисление)
 double simple_math(double second_num, double first_num, char operation) {
   double out_num = 0.0;
   switch (operation) {
@@ -206,7 +209,7 @@ double trigon_calc(double x, char operation) {
   return buf_num;
 }
 
-//  Операции подсчета
+//  Выполнение операции подсчета
 double math_operations(stack_type **num_sta, stack_type **oper_sta) {
   double buf_num = 0.0;
   if ((*oper_sta)->prio < 4) {
@@ -222,6 +225,7 @@ double math_operations(stack_type **num_sta, stack_type **oper_sta) {
   return buf_num;
 }
 
+//  Проверка унарного плюса
 int unar_check(char check, const char *oper_st, int position) {
   int unar_minus_find = 0;
   if ((check == '-' || check == '+') && !position) unar_minus_find = 1;
@@ -230,6 +234,7 @@ int unar_check(char check, const char *oper_st, int position) {
   return unar_minus_find;
 }
 
+//  Определение открывающей скобки с защитой попадания на NULL
 int bracket_finder(stack_type * oper) {
     int finded = 0;
     if(oper != NULL)
@@ -266,7 +271,7 @@ double calc(const char *calculation_src, double X_num) {
         } else {
           double buf_num = math_operations(&st_num, &st_oper);
           st_num = push_sta(st_num, buf_num, 0);  //  Выполнить расчёт
-        }
+        }                                         //  т.к. остальные условия не прошли
       }
       position++;
     } else {  //  Если получили число
@@ -274,9 +279,11 @@ double calc(const char *calculation_src, double X_num) {
     }
   }
   while (st_oper != NULL) {  //  Расчёт оставшегося содержимого стеков
-    if(st_oper->val_dub == '(') {
-        del_point(st_oper);
+    if(bracket_finder(st_oper)) {
+        st_oper = del_point(st_oper);  //  Если забыли поставить скобки в конце уравнения
+        continue;
     }
+    //  Если пришло число, просто отправляем в стек чисел
     double buf_num = math_operations(&st_num, &st_oper);
     st_num = push_sta(st_num, buf_num, 0);
   }
