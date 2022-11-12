@@ -107,7 +107,7 @@ void MainWindow::AC_button() {
 
 void MainWindow::equals_button() {
 
-    if(ui->result->text() != 0) {
+    if(ui->result->text() != "0") {
 
         double X = ui->line_X->text().toDouble();
 
@@ -128,7 +128,7 @@ void MainWindow::equals_button() {
 
 void MainWindow::graf_button() {
 
-    if(ui->result->text() != 0) {
+    if(ui->result->text() != "0") {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
