@@ -304,3 +304,13 @@ double start_calc(const char * src, double X_num) {
     printf("Ошибка");
   return result;
 }
+
+int valid_graf(char * num_str) {
+    int check_result = TRUE, i = 0;
+    while(num_str) {
+    if(num_str[i] < '0' || num_str[i] > '9') {
+        check_result = FALSE;
+    }
+
+    }
+}

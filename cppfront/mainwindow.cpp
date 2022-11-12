@@ -56,6 +56,7 @@ void MainWindow::digits_numbers() {
     QPushButton *button = (QPushButton *)sender();
 
     QString new_lable;
+
     if(ui->result->text() == "0") {
 
         ui->result->setText(button->text());
@@ -74,23 +75,29 @@ void MainWindow::digits_numbers() {
 }
 
 void MainWindow::skobki() {
-    QPushButton *button = (QPushButton *)sender();
 
-    QString new_lable;
-    if(ui->result->text() == "0") {
-
-        ui->result->setText(button->text());
-        ui->result_code->setText(button->text());
+    if(ui->line_X_to->hasFocus() || ui->line_Y_to->hasFocus() || ui->line_X_from->hasFocus() || ui->line_Y_from->hasFocus() || ui->line_X->hasFocus()) {
 
     } else {
 
-        new_lable = ui->result->text() + button->text();
+        QPushButton *button = (QPushButton *)sender();
 
-        ui->result->setText(new_lable);
+        QString new_lable;
+        if(ui->result->text() == "0") {
 
-        new_lable = ui->result_code->text() + button->text();
+            ui->result->setText(button->text());
+            ui->result_code->setText(button->text());
 
-        ui->result_code->setText(new_lable);
+        } else {
+
+            new_lable = ui->result->text() + button->text();
+
+            ui->result->setText(new_lable);
+
+            new_lable = ui->result_code->text() + button->text();
+
+            ui->result_code->setText(new_lable);
+        }
     }
 }
 
@@ -163,38 +170,48 @@ void MainWindow::graf_button() {
 
 void MainWindow::func_button() {
 
-    QPushButton *button = (QPushButton *)sender();
-
-    QString new_lable;
-    if(ui->result->text() == "0") {
-
-        ui->result->setText(button->text() + '(');
-        ui->result_code->setText(button->whatsThis() + '(');
+    if(ui->line_X_to->hasFocus() || ui->line_Y_to->hasFocus() || ui->line_X_from->hasFocus() || ui->line_Y_from->hasFocus() || ui->line_X->hasFocus()) {
 
     } else {
 
-        new_lable = ui->result->text() + button->text()  + '(';
 
-        ui->result->setText(new_lable);
+    QPushButton *button = (QPushButton *)sender();
 
-        new_lable = ui->result_code->text() + button->whatsThis()  + '(';
+    QString new_lable;
+        if(ui->result->text() == "0") {
 
-        ui->result_code->setText(new_lable);
+            ui->result->setText(button->text() + '(');
+            ui->result_code->setText(button->whatsThis() + '(');
+
+        } else {
+
+            new_lable = ui->result->text() + button->text()  + '(';
+
+            ui->result->setText(new_lable);
+
+            new_lable = ui->result_code->text() + button->whatsThis()  + '(';
+
+            ui->result_code->setText(new_lable);
+        }
     }
-
 }
 
 void MainWindow::simp_math_button() {
 
+    if(ui->line_X_to->hasFocus() || ui->line_Y_to->hasFocus() || ui->line_X_from->hasFocus() || ui->line_Y_from->hasFocus() || ui->line_X->hasFocus()) {
+
+    } else {
+
+
     QPushButton *button = (QPushButton *)sender();
 
     QString new_lable;
-    if(ui->result->text() == "0") {
+        if(ui->result->text() == "0") {
 
         ui->result->setText(button->text());
         ui->result_code->setText(button->whatsThis());
 
-    } else {
+        } else {
 
         new_lable = ui->result->text() + button->text();
 
@@ -203,6 +220,6 @@ void MainWindow::simp_math_button() {
         new_lable = ui->result_code->text() + button->whatsThis();
 
         ui->result_code->setText(new_lable);
+        }
     }
-
 }

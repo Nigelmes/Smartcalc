@@ -15,8 +15,8 @@ typedef struct Node_stack {
 } stack_type;
 
 enum truefalse {
-  TRUE,
   FALSE,
+  TRUE,
   COS = '@',
   SIN,
   TAN,
