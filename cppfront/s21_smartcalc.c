@@ -362,10 +362,11 @@ int valid_close_bracket(const char * str_line) {
     int open_bracket_val = char_counter(str_line, '(');
     int close_bracket_val = char_counter(str_line, ')');
     int last_sym = last_is(str_line[str_len-1]);
-    if((open_bracket_val > close_bracket_val) && last_sym)
+    if((open_bracket_val > close_bracket_val) && last_sym) {
         bracket_valid = TRUE;
-    else if (last_symbol_oper(str_line[str_len-1]))
+    } else if ((last_sym >= '0' && str_line[str_len-1] <= '9') || str_line[str_len-1] == ')' || str_line[1] == '\n') {
         bracket_valid = ERROR;
+    }
     return bracket_valid;
 }
 

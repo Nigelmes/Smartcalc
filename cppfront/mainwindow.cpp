@@ -85,11 +85,11 @@ void MainWindow::skobki() {
 
         int valid_line = valid_close_bracket(c_str2);
 
-        if (valid_line == TRUE)
+        if (valid_line == TRUE) {
             new_lable = ')';
-
-        else if (valid_line == FALSE)
+        } else if (valid_line == FALSE) {
             new_lable = '(';
+        }
 
         if(ui->result->text() == "0" && valid_line != ERROR) {
 
@@ -97,7 +97,7 @@ void MainWindow::skobki() {
 
             ui->result->setText(new_lable);
 
-        } else {
+        } else if (valid_line != ERROR) {
 
             ui->result_code->setText(ui->result_code->text() + new_lable);
 
