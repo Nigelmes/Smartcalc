@@ -34,5 +34,6 @@ private slots:
     void simp_math_button();
     void graf_button();
     void skobki();
+    void x_button_push();
 };
 #endif // MAINWINDOW_H

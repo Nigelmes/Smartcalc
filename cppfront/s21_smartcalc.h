@@ -44,12 +44,13 @@ double math_operations(stack_type **num_sta, stack_type **oper_sta);
 int unar_check(char check, const char *oper_st, int position);
 double calc(const char *calculation_src, double X);
 double start_calc(const char * src, double X);
-int valid_close_bracket(const char * str_line);
 int last_is(char res);
 int char_counter(const char * str_line, char res);
 int in_line_start(const char * str, int str_len);
 int is_simp_oper(char oper);
 int is_nums(char num);
 int smart_bracket(const char * str_line);
+int valid_simp_oper(const char * str_line);
+int valid_func(const char * str_line);
 
 #endif  // SRC_S21_SMARTCALC_H_
