@@ -375,8 +375,9 @@ int smart_bracket(const char *str_line) {
 int valid_simp_oper(const char * str_line) {
   int valid_oper = FALSE;
   int len = strlen(str_line);
-  int last = last_is(str_line[len - 1]);
-  if(last)
+  char lastch = str_line[len - 1];
+  int last = last_is(lastch);
+  if(last && !in_line_start(str_line, len))
     valid_oper = TRUE;
   return valid_oper;
 }
@@ -402,7 +403,18 @@ int valid_equals(const char * str_line) {
   int validequals = FALSE;
   int len = strlen(str_line);
   char lastchar = str_line[len - 1];
-  if(lastchar == ')' || is_nums(lastchar))
+  if(lastchar == ')' || is_nums(lastchar) || lastchar == 'X')
     validequals = TRUE;
   return validequals;
 }
+
+int valid_unar(const char * str_line) {
+  int validunar = FALSE;
+  int len = strlen(str_line);
+  char lastchar = str_line[len - 1];
+  if(lastchar == '(' || in_line_start(str_line, len))
+    validunar = TRUE;
+  return validunar;
+}
+
+

@@ -133,13 +133,13 @@ void MainWindow::skobki() {
     ui->result->setText(new_lable); //  Запись для вывода на экран
 
   } else if (valid_line != ERROR) {
-
+    //  Запись в строку для передачи в бэкЭнд
     ui->result_code->setText(
-        ui->result_code->text() +
-        new_lable); //  Запись в строку для передачи в бэкЭнд
+        ui->result_code->text() + new_lable);
 
-    ui->result->setText(ui->result->text() +
-                        new_lable); //  Запись для вывода на экран
+ //  Запись для вывода на экран
+    ui->result->setText(ui->result->text() + new_lable);
+
   }
 }
 
@@ -181,7 +181,11 @@ void MainWindow::equals_button() {
 
 void MainWindow::graf_button() {
 
-  if (ui->result->text() != "0") {
+  QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+
+  const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+  if (ui->result->text() != "0" && valid_equals(c_str2)) {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
@@ -249,15 +253,21 @@ void MainWindow::simp_math_button() {
 
   const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
 
-  int valid_simp = valid_simp_oper(c_str2); //  Валидация операции
+  int valid;
 
-  if (ui->result->text() == "0" && valid_simp) {
+  valid = valid_simp_oper(c_str2); //  Валидация операции
+
+  if(!valid && (button->text() != "-" || button->text() != "+"))
+
+    valid = valid_unar(c_str2);
+
+  if (ui->result->text() == "0" && valid) {
 
     ui->result->setText(button->text());
 
     ui->result_code->setText(button->whatsThis());
 
-  } else if(valid_simp) {
+  } else if(valid) {
 
     new_lable = ui->result->text() + button->text();
 
