@@ -55,5 +55,6 @@ int valid_func(const char * str_line);
 int valid_nums(const char * str_line);
 int valid_equals(const char * str_line);
 int valid_unar(const char * str_line);
+int valid_dot(const char * str_line);
 
 #endif  // SRC_S21_SMARTCALC_H_

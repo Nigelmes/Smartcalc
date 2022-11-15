@@ -417,4 +417,16 @@ int valid_unar(const char * str_line) {
   return validunar;
 }
 
-
+int valid_dot(const char * str_line) {
+  int validdot = TRUE;
+  int i = 0;
+  int len = strlen(str_line);
+  while (is_nums(str_line[len-1-i])) {
+    if(str_line[len-1-i] == '.') {
+      validdot = FALSE;
+    break;
+    }
+    i++;
+  }
+  return validdot;
+}
