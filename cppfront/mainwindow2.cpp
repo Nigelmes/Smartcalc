@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->push_stepen,SIGNAL(clicked()),this,SLOT(simp_math_button()));
 //  Скобки
     connect(ui->push_leftscob,SIGNAL(clicked()),this,SLOT(skobki()));
+    connect(ui->push_rightscob,SIGNAL(clicked()),this,SLOT(skobki()));
 //  Точка
     connect(ui->push_dot,SIGNAL(clicked()),this,SLOT(digits_numbers()));
 
@@ -55,12 +56,9 @@ void MainWindow::digits_numbers() {
     QPushButton *button = (QPushButton *)sender();
 
     QString new_lable;
-
-
     if(ui->result->text() == "0") {
 
         ui->result->setText(button->text());
-
         ui->result_code->setText(button->text());
 
     } else {
@@ -76,34 +74,24 @@ void MainWindow::digits_numbers() {
 }
 
 void MainWindow::skobki() {
+    QPushButton *button = (QPushButton *)sender();
 
-        QString new_lable, new_lable_code;
+    QString new_lable;
+    if(ui->result->text() == "0") {
 
-        QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+        ui->result->setText(button->text());
+        ui->result_code->setText(button->text());
 
-        const char *c_str2 = ba.data();
+    } else {
 
-        int valid_line = smart_bracket(c_str2);
+        new_lable = ui->result->text() + button->text();
 
-        if (valid_line == TRUE) {
-            new_lable = ')';
-        } else if (valid_line == FALSE) {
-            new_lable = '(';
-        }
+        ui->result->setText(new_lable);
 
-        if(ui->result->text() == "0" && valid_line != ERROR) {
+        new_lable = ui->result_code->text() + button->text();
 
-            ui->result_code->setText(new_lable);
-
-            ui->result->setText(new_lable);
-
-        } else if (valid_line != ERROR) {
-
-            ui->result_code->setText(ui->result_code->text() + new_lable);
-
-            ui->result->setText(ui->result->text() + new_lable);
-
-        }
+        ui->result_code->setText(new_lable);
+    }
 }
 
 void MainWindow::AC_button() {
@@ -119,7 +107,7 @@ void MainWindow::AC_button() {
 
 void MainWindow::equals_button() {
 
-    if(ui->result->text() != "0") {
+    if(ui->result->text() != 0) {
 
         double X = ui->line_X->text().toDouble();
 
@@ -140,7 +128,7 @@ void MainWindow::equals_button() {
 
 void MainWindow::graf_button() {
 
-    if(ui->result->text() != "0") {
+    if(ui->result->text() != 0) {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
@@ -178,21 +166,22 @@ void MainWindow::func_button() {
     QPushButton *button = (QPushButton *)sender();
 
     QString new_lable;
-        if(ui->result->text() == "0") {
+    if(ui->result->text() == "0") {
 
-            ui->result->setText(button->text() + '(');
-            ui->result_code->setText(button->whatsThis() + '(');
+        ui->result->setText(button->text() + '(');
+        ui->result_code->setText(button->whatsThis() + '(');
 
-        } else {
+    } else {
 
-            new_lable = ui->result->text() + button->text()  + '(';
+        new_lable = ui->result->text() + button->text()  + '(';
 
-            ui->result->setText(new_lable);
+        ui->result->setText(new_lable);
 
-            new_lable = ui->result_code->text() + button->whatsThis()  + '(';
+        new_lable = ui->result_code->text() + button->whatsThis()  + '(';
 
-            ui->result_code->setText(new_lable);
-        }
+        ui->result_code->setText(new_lable);
+    }
+
 }
 
 void MainWindow::simp_math_button() {
@@ -200,12 +189,12 @@ void MainWindow::simp_math_button() {
     QPushButton *button = (QPushButton *)sender();
 
     QString new_lable;
-        if(ui->result->text() == "0") {
+    if(ui->result->text() == "0") {
 
         ui->result->setText(button->text());
         ui->result_code->setText(button->whatsThis());
 
-        } else {
+    } else {
 
         new_lable = ui->result->text() + button->text();
 
@@ -214,5 +203,6 @@ void MainWindow::simp_math_button() {
         new_lable = ui->result_code->text() + button->whatsThis();
 
         ui->result_code->setText(new_lable);
-        }
+    }
+
 }

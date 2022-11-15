@@ -305,56 +305,74 @@ double start_calc(const char * src, double X_num) {
   return result;
 }
 
-//int valid_graf(char * num_str) {
-//    int check_result = TRUE, i = 0;
-//    while(num_str) {
-//    if(num_str[i] < '0' || num_str[i] > '9') {
-//        check_result = FALSE;
-//    }
-
-//    }
-//    return check_result;
-//}
-
-int last_symbol_oper(char line_str) {
-    int is_oper = FALSE;
-    int num_sym = position_counter(line_str);
-    if (num_sym > 0 && num_sym < 7){
-        is_oper = TRUE;
-    }
-    return is_oper;
+int in_line_start(const char * str, int str_len) {
+    int in_start = FALSE;
+    if(str[0] == '0' && str_len == 1)
+        in_start = TRUE;
+    return in_start;
 }
 
-//int valid_skobki(const char * line_str) {
-//    int open_scobka = FALSE;
-//    int str_len = strlen(line_str);
-//    int last_symbol_is_oper = last_symbol_oper(line_str[str_len]);
-//    if(!str_len)
-//        open_scobka = TRUE;
-//    else if(line_str[str_len] == '(')
-//        open_scobka = TRUE;
-//    else if(last_symbol_is_oper)
-//        open_scobka = TRUE;
-//    return open_scobka;
-//}
+int is_simp_oper(char oper) {
+    int it_oper = FALSE;
+    int oper_string = position_counter(oper);
+    if(oper_string > 0 && oper_string < 7)
+        it_oper = TRUE;
+    return it_oper;
+}
 
 int char_counter(const char * str_line, char res) {
-    int counter = 0, i = 0;
-    while (str_line[i]) {
-        if (str_line[i] == res)
-            counter++;
-        i++;
-    }
+  int counter = 0, i = 0;
+  while (str_line[i]) {
+    if (str_line[i] == res)
+      counter++;
+    i++;
+  }
+  return counter;
+}
 
-    return counter;
+int is_nums(char num) {
+  int is_num = FALSE;
+  if ('0' <= num && num <= '9')
+    is_num = TRUE;
+  return is_num;
 }
 
 int last_is(char res) {
     int is_number = FALSE;
-    if((res >= '0' && res <= '9') || res == '.' || res == ')')
+    if(is_nums(res) || res == '.' || res == ')')
         is_number = TRUE;
     return is_number;
 }
+
+int smart_bracket(const char * str_line) {
+  int closed_bracket = FALSE;
+  int len = strlen(str_line);
+  int open_bracket_val = char_counter(str_line, '(');
+  int close_bracket_val = char_counter(str_line, ')');
+  int last_sym = last_is(str_line[len-1]);
+
+  if((open_bracket_val > close_bracket_val) && last_sym) {
+    closed_bracket = TRUE;
+  } else if (in_line_start(str_line, len) || is_simp_oper(str_line[len-1]) || str_line[len-1] == '(') {
+    closed_bracket = FALSE;
+  } else {
+    closed_bracket = ERROR;
+  }
+  return closed_bracket;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int valid_close_bracket(const char * str_line) {
     int bracket_valid = FALSE;
