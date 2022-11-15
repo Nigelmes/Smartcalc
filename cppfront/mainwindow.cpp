@@ -47,17 +47,24 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::x_button_push() {
+
   QPushButton *button = (QPushButton *)sender();
 
   QString new_lable;
 
-  if (ui->result->text() == "0") {
+  QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+
+  const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+  int validfunc = valid_func(c_str2); //  Валидация операции
+
+  if (ui->result->text() == "0" && validfunc) {
 
     ui->result->setText(button->text());
 
     ui->result_code->setText(button->text());
 
-  } else {
+  } else if (validfunc) {
 
     new_lable = ui->result->text() + button->text();
 
@@ -70,17 +77,24 @@ void MainWindow::x_button_push() {
 }
 
 void MainWindow::digits_numbers() {
+
   QPushButton *button = (QPushButton *)sender();
 
   QString new_lable;
 
-  if (ui->result->text() == "0") {
+  QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+
+  const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+  int validfunc = valid_nums(c_str2); //  Валидация чисел
+
+  if (ui->result->text() == "0" && validfunc) {
 
     ui->result->setText(button->text());
 
     ui->result_code->setText(button->text());
 
-  } else {
+  } else if (validfunc){
 
     new_lable = ui->result->text() + button->text();
 
@@ -142,7 +156,11 @@ void MainWindow::AC_button() {
 
 void MainWindow::equals_button() {
 
-  if (ui->result->text() != "0") {
+  QByteArray ba = (ui->result_code->text()).toLocal8Bit();
+
+  const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+  if (ui->result->text() != "0" && valid_equals(c_str2)) {
 
     double X = ui->line_X->text().toDouble();
 
@@ -197,7 +215,6 @@ void MainWindow::func_button() {
   QPushButton *button = (QPushButton *)sender();
 
   QString new_lable;
-
 
   QByteArray ba = (ui->result_code->text()).toLocal8Bit();
 

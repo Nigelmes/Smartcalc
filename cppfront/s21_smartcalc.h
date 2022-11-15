@@ -52,5 +52,7 @@ int is_nums(char num);
 int smart_bracket(const char * str_line);
 int valid_simp_oper(const char * str_line);
 int valid_func(const char * str_line);
+int valid_nums(const char * str_line);
+int valid_equals(const char * str_line);
 
 #endif  // SRC_S21_SMARTCALC_H_

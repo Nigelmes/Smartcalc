@@ -35,8 +35,7 @@ double pop_val(stack_type **stack) {
 stack_type *push_sta(stack_type *plist, double val_dub, int prio) {
   stack_type *Part = malloc(sizeof(stack_type));
   if (Part == NULL) {
-    Part = NULL;
-//    exit(1);
+    exit(1);
   } else {
     Part->next = plist;
     Part->prio = prio;
@@ -290,8 +289,8 @@ double calc(const char *calculation_src, double X_num) {
   }
   while (st_oper != NULL) { //  Расчёт оставшегося содержимого стеков
     if (bracket_finder(st_oper)) {
-      st_oper =
-          del_point(st_oper); //  Если забыли поставить скобки в конце уравнения
+      st_oper = del_point(st_oper);
+      //  Если забыли поставить скобки в конце уравнения
       continue;
     }
     //  Если пришло число, просто отправляем в стек чисел
@@ -343,14 +342,14 @@ int char_counter(const char *str_line, char res) {
 
 int is_nums(char num) {
   int is_num = FALSE;
-  if (('0' <= num && num <= '9') || num == 'X')
+  if (('0' <= num && num <= '9') || num == '.')
     is_num = TRUE;
   return is_num;
 }
 
 int last_is(char res) {
   int is_number = FALSE;
-  if (is_nums(res) || res == '.' || res == ')')
+  if (is_nums(res) || res == '.' || res == ')' || res == 'X')
     is_number = TRUE;
   return is_number;
 }
@@ -376,7 +375,6 @@ int smart_bracket(const char *str_line) {
 int valid_simp_oper(const char * str_line) {
   int valid_oper = FALSE;
   int len = strlen(str_line);
-//  int isnum = is_num(str_line[len-1]);
   int last = last_is(str_line[len - 1]);
   if(last)
     valid_oper = TRUE;
@@ -389,4 +387,22 @@ int valid_func(const char * str_line) {
   if(is_simp_oper(str_line[len - 1]) || str_line[len - 1] == '(' || in_line_start(str_line, len))
     validfunc = TRUE;
   return validfunc;
+}
+
+int valid_nums(const char * str_line) {
+  int validfunc = FALSE;
+  int len = strlen(str_line);
+  char lastchar = str_line[len - 1];
+  if((is_simp_oper(lastchar) || lastchar == '(' || in_line_start(str_line, len) || is_nums(lastchar)) && lastchar != 'X')
+    validfunc = TRUE;
+  return validfunc;
+}
+
+int valid_equals(const char * str_line) {
+  int validequals = FALSE;
+  int len = strlen(str_line);
+  char lastchar = str_line[len - 1];
+  if(lastchar == ')' || is_nums(lastchar))
+    validequals = TRUE;
+  return validequals;
 }
