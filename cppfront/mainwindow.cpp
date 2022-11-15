@@ -88,6 +88,12 @@ void MainWindow::digits_numbers() {
 
   int validfunc = valid_nums(c_str2); //  Валидация чисел
 
+  if(validfunc && button->text() == ".") {
+
+    validfunc = valid_dot(c_str2);
+
+    }
+
   if (ui->result->text() == "0" && validfunc) {
 
     ui->result->setText(button->text());
