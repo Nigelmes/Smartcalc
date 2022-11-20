@@ -40,7 +40,6 @@ void Credit::on_pushButton_clicked() {
     } else if (ui->differen->isChecked()) {
 
         int debt_sum = summa / srok;
-        //ui->textBrowser->setText("");
         for (int i = 1; i <= srok; i++) {
             monthly = (summa * percent / 100 * 31/365) + debt_sum;
             QString qmonth = QString::number(monthly);
