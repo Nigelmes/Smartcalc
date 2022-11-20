@@ -20,26 +20,6 @@ void Credit::on_pushButton_clicked() {
     ui->sumcredit->setValidator(new QDoubleValidator);
     ui->percentcredit->setValidator(new QDoubleValidator);
 
-//    QByteArray ba1 = (ui->srokcredit->text()).toLocal8Bit();
-//    const char *str1 = ba1.data();
-
-//    QByteArray ba2 = (ui->sumcredit->text()).toLocal8Bit();
-//    const char *str2 = ba2.data();
-
-//    QByteArray ba3 = (ui->srokcredit->text()).toLocal8Bit();
-//    const char *str3 = ba3.data();
-
-//        if (str1) {
-//            srok=ui->srokcredit->text().toInt();
-//        }
-
-//        if (str2) {
-//            summa=ui->sumcredit->text().toDouble();
-//        }
-
-//        if (str3) {
-//            percent=ui->percentcredit->text().toDouble();
-//        }
 
      srok=ui->srokcredit->text().toInt();
      summa=ui->sumcredit->text().toDouble();
