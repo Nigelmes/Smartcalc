@@ -191,7 +191,7 @@ void MainWindow::graf_button() {
 
   const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
 
-  if (ui->result->text() != "0" && valid_equals(c_str2)) {
+  if (ui->result->text() != '0' && valid_equals(c_str2)) {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
@@ -232,7 +232,7 @@ void MainWindow::func_button() {
 
   int validfunc = valid_func(c_str2); //  Валидация операции
 
-  if (ui->result->text() == "0" && validfunc) {
+  if (ui->result->text() == '0' && validfunc) {
 
     ui->result->setText(button->text() + '(');
     ui->result_code->setText(button->whatsThis() + '(');

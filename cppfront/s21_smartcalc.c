@@ -426,15 +426,15 @@ int valid_dot(const char * str_line) {
   int i = 0;
   int len = strlen(str_line);
   if (len < 255) {
-  while (is_nums(str_line[len-1-i])) {
-    if(str_line[len-1-i] == '.') {
-      validdot = FALSE;
-    break;
-    }
+    while (is_nums(str_line[len-1-i])) {
+      if(str_line[len-1-i] == '.') {
+        validdot = FALSE;
+        break;
+      }
     i++;
-  }
+    }
   } else {
-      validdot = FALSE;
+    validdot = FALSE;
   }
   return validdot;
 }
