@@ -1,6 +1,6 @@
+#include "credit.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "credit.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -192,7 +192,7 @@ void MainWindow::graf_button() {
 
   const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
 
-  if (ui->result->text() != "0" && valid_equals(c_str2)) {
+  if (ui->result->text() != '0' && valid_equals(c_str2)) {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
@@ -233,7 +233,7 @@ void MainWindow::func_button() {
 
   int validfunc = valid_func(c_str2); //  Валидация операции
 
-  if (ui->result->text() == "0" && validfunc) {
+  if (ui->result->text() == '0' && validfunc) {
 
     ui->result->setText(button->text() + '(');
     ui->result_code->setText(button->whatsThis() + '(');
@@ -264,11 +264,13 @@ void MainWindow::simp_math_button() {
 
   valid = valid_simp_oper(c_str2); //  Валидация операции
 
-  if(!valid && (button->text() != "-" || button->text() != "+"))
+  if(!valid && (button->text() == '-' || button->text() == '+')) {
 
     valid = valid_unar(c_str2);
 
-  if (ui->result->text() == "0" && valid) {
+  }
+
+  if (ui->result->text() == '0' && valid) {
 
     ui->result->setText(button->text());
 
