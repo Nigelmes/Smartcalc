@@ -25,4 +25,5 @@ private:
     int srok, debt_sum;
 };
 
+
 #endif // CREDIT_H

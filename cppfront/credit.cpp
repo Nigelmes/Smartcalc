@@ -41,8 +41,12 @@ void Credit::on_pushButton_clicked() {
         ui->textBrowser->setText("Ежемесячный платеж - "+qmonth +" рублей");
     } else if (ui->differen->isChecked()) {
 
+<<<<<<< HEAD
         debt_sum = summa / srok;
         //ui->textBrowser->setText("");
+=======
+        int debt_sum = summa / srok;
+>>>>>>> 42bc39d342bf152fc763c0d72287c82db779f538
         for (int i = 1; i <= srok; i++) {
             monthly = (summa * percent / 100 * 31/365) + debt_sum;
             QString qmonth = QString::number(monthly);
