@@ -3,7 +3,7 @@
 int main(void) {
   const char *arr = "0";
   if ()
-    printf("Ошибка");
+    printf("Ошибкhggggа");
   printf("%s \n", arr);
   return 0;
 }
