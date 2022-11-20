@@ -2,6 +2,7 @@
 #define CREDIT_H
 
 #include <QDialog>
+#include <QValidator>
 
 namespace Ui {
 class Credit;
@@ -20,7 +21,8 @@ private slots:
 
 private:
     Ui::Credit *ui;
-
+    double summa, itog, pereplata, monthly , percent;
+    int srok, debt_sum;
 };
 
 #endif // CREDIT_H
