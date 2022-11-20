@@ -89,7 +89,10 @@ int prio_check(char src_string) {  //  Определение приоритет
      4: cos,sin,tg,ctg,ln,log,!
      5: ()
      0: X
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/nigelmes
 То, что ниже - более высокий приоритет, по горизонтали - одинаковый.
 Корень - это частный случай степени. */
 
@@ -111,8 +114,26 @@ stack_type parser_uno(const char *calculation_src,
       double tess = atof(buf);
       stack1.prio = prio;
       stack1.val_dub = tess;
+<<<<<<< HEAD
+=======
     }
   }
+  return stack1;
+}
+
+void print_from_node(stack_type *stack1) {
+  stack_type *Ptrack = stack1;
+  printf("\n");
+  while (Ptrack) {
+    if (Ptrack->prio) {
+      printf(" %dpri%c", Ptrack->prio, (char)Ptrack->val_dub);
+    } else {
+      printf(" %.7lf", Ptrack->val_dub);
+>>>>>>> origin/nigelmes
+    }
+    Ptrack = Ptrack->next;
+  }
+<<<<<<< HEAD
   return stack1;
 }
 
@@ -171,6 +192,52 @@ double simple_math(double second_num, double first_num, char operation) {
   return out_num;
 }
 
+=======
+  printf("\n");
+}
+
+void destroy_node(stack_type *stack1) {
+  stack_type *Ptrack = stack1;
+  while (Ptrack) {
+    stack_type *Ptrack_bac = Ptrack->next;
+    free(Ptrack);
+    Ptrack = Ptrack_bac;
+  }
+  free(Ptrack);
+}
+
+stack_type *del_point(stack_type *stack1) {
+  stack_type *Ptrack_bac = stack1->next;
+  free(stack1);
+  return Ptrack_bac;
+}
+
+double simple_math(double second_num, double first_num, char operation) {
+  double out_num = 0.0;
+  switch (operation) {
+    case '+':
+      out_num = first_num + second_num;
+      break;
+    case '-':
+      out_num = first_num - second_num;
+      break;
+    case '*':
+      out_num = first_num * second_num;
+      break;
+    case '/':
+      out_num = first_num / second_num;
+      break;
+    case '^':
+      out_num = pow(first_num, second_num);
+      break;
+    case 'M':
+      out_num = fmod(first_num, second_num);
+      break;
+  }
+  return out_num;
+}
+
+>>>>>>> origin/nigelmes
 //  Вычисление тригонометрии
 double trigon_calc(double x, char operation) {
   double buf_num = 0.0;
