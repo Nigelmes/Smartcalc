@@ -361,7 +361,9 @@ int smart_bracket(const char *str_line) {
   int close_bracket_val = char_counter(str_line, ')');
   int last_sym = last_is(str_line[len - 1]);
 
-  if ((open_bracket_val > close_bracket_val) && last_sym) {
+  if(len > 254) {
+      closed_bracket = ERROR;
+  }else if ((open_bracket_val > close_bracket_val) && last_sym) {
     closed_bracket = TRUE;
   } else if (in_line_start(str_line, len) || is_simp_oper(str_line[len - 1]) ||
              str_line[len - 1] == '(') {
@@ -377,7 +379,7 @@ int valid_simp_oper(const char * str_line) {
   int len = strlen(str_line);
   char lastch = str_line[len - 1];
   int last = last_is(lastch);
-  if(last && !in_line_start(str_line, len))
+  if(last && !in_line_start(str_line, len) && len < 255)
     valid_oper = TRUE;
   return valid_oper;
 }
@@ -385,7 +387,8 @@ int valid_simp_oper(const char * str_line) {
 int valid_func(const char * str_line) {
   int validfunc = FALSE;
   int len = strlen(str_line);
-  if(is_simp_oper(str_line[len - 1]) || str_line[len - 1] == '(' || in_line_start(str_line, len))
+  char lastchar = str_line[len - 1];
+  if((is_simp_oper(lastchar) || lastchar == '(' || in_line_start(str_line, len)) && len < 255)
     validfunc = TRUE;
   return validfunc;
 }
@@ -394,7 +397,7 @@ int valid_nums(const char * str_line) {
   int validfunc = FALSE;
   int len = strlen(str_line);
   char lastchar = str_line[len - 1];
-  if((is_simp_oper(lastchar) || lastchar == '(' || in_line_start(str_line, len) || is_nums(lastchar)) && lastchar != 'X')
+  if(((is_simp_oper(lastchar) || lastchar == '(' || in_line_start(str_line, len) || is_nums(lastchar)) && lastchar != 'X') && len < 255)
     validfunc = TRUE;
   return validfunc;
 }
@@ -412,8 +415,9 @@ int valid_unar(const char * str_line) {
   int validunar = FALSE;
   int len = strlen(str_line);
   char lastchar = str_line[len - 1];
-  if(lastchar == '(' || in_line_start(str_line, len))
+  if((lastchar == '(' || in_line_start(str_line, len)) && len < 255) {
     validunar = TRUE;
+  }
   return validunar;
 }
 
@@ -421,12 +425,16 @@ int valid_dot(const char * str_line) {
   int validdot = TRUE;
   int i = 0;
   int len = strlen(str_line);
+  if (len < 255) {
   while (is_nums(str_line[len-1-i])) {
     if(str_line[len-1-i] == '.') {
       validdot = FALSE;
     break;
     }
     i++;
+  }
+  } else {
+      validdot = FALSE;
   }
   return validdot;
 }

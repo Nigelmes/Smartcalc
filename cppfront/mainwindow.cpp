@@ -263,11 +263,13 @@ void MainWindow::simp_math_button() {
 
   valid = valid_simp_oper(c_str2); //  Валидация операции
 
-  if(!valid && (button->text() != "-" || button->text() != "+"))
+  if(!valid && (button->text() == '-' || button->text() == '+')) {
 
     valid = valid_unar(c_str2);
 
-  if (ui->result->text() == "0" && valid) {
+  }
+
+  if (ui->result->text() == '0' && valid) {
 
     ui->result->setText(button->text());
 
