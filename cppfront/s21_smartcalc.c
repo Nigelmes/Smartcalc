@@ -431,18 +431,33 @@ int valid_dot(const char * str_line) {
   return validdot;
 }
 
-int valid_input_line(double maxval, double minval, const char * str_line) {
-    validline = TRUE;
-    int len = strlen(str_line);
-    char lastchar = str_line[len - 1];
-    if (lastchar == '.') {
-      validline = valid_dot(str_line);
+int valid_dot_line(const char * str_line) {
+  int validdot = TRUE;
+  int i = 0;
+  int len = strlen(str_line);
+  while (is_nums(str_line[len-1-i])) {
+    if(str_line[len-1-i] == '.') {
+      validdot++;
     }
-    if (validline) {
+    i++;
+  }
+  if (validdot > 2) validdot = FALSE;
+  return validdot;
+}
+
+int valid_input_line(double maxval, double minval, const char * str_line) {
+    int validline = TRUE;
+    int len = strlen(str_line);
+    char lastchar = str_line[len-1];
+    if(str_line[1] == '\0' && str_line[0] == '-') {
+        validline = TRUE;
+    } else if (lastchar == '.') {
+      validline = valid_dot_line(str_line);
+    } else if (validline) {
       validline = is_nums(lastchar);
     }
     if (validline) {
-      double test = atof(strline);
+      double test = atof(str_line);
       if(minval > test || test > maxval)
         validline = FALSE;
     }

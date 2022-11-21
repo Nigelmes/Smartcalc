@@ -295,3 +295,53 @@ void MainWindow::on_pushButton_clicked()
     credit_okno.exec();
 }
 
+// const QString &arg1
+
+void MainWindow::on_line_X_from_textChanged()
+{
+    QByteArray ba = (ui->line_X->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+    int valid;
+
+    valid = valid_input_line(100000, -100000, c_str2); //  Валидация операции
+
+    if(!valid) {
+
+        QString new_lable = ui->line_X->text();
+
+        new_lable.chop(1);
+
+        ui->line_X->setText(new_lable);
+
+    }
+}
+
+
+void MainWindow::on_line_X_selectionChanged()
+{
+
+}
+
+
+void MainWindow::on_line_X_cursorPositionChanged()
+{
+    QByteArray ba = (ui->line_X->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+    int valid;
+
+    valid = valid_input_line(1000000, -1000000, c_str2); //  Валидация операции
+
+    if(!valid) {
+
+        QString new_lable = ui->line_X->text();
+
+        new_lable.chop(1);
+
+        ui->line_X->setText(new_lable);
+    }
+}
+
