@@ -430,3 +430,21 @@ int valid_dot(const char * str_line) {
   }
   return validdot;
 }
+
+int valid_input_line(double maxval, double minval, const char * str_line) {
+    validline = TRUE;
+    int len = strlen(str_line);
+    char lastchar = str_line[len - 1];
+    if (lastchar == '.') {
+      validline = valid_dot(str_line);
+    }
+    if (validline) {
+      validline = is_nums(lastchar);
+    }
+    if (validline) {
+      double test = atof(strline);
+      if(minval > test || test > maxval)
+        validline = FALSE;
+    }
+    return validline;
+}
