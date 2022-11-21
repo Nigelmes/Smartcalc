@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->push_leftscob, SIGNAL(clicked()), this, SLOT(skobki()));
   //  Точка
   connect(ui->push_dot, SIGNAL(clicked()), this, SLOT(digits_numbers()));
+  //  Input lines
+
+  connect(ui->line_Y_from, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(on_line_X_to_cursorPositionChanged()));
+  connect(ui->line_Y_to, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(on_line_X_to_cursorPositionChanged()));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -295,36 +299,6 @@ void MainWindow::on_pushButton_clicked()
     credit_okno.exec();
 }
 
-// const QString &arg1
-
-void MainWindow::on_line_X_from_textChanged()
-{
-    QByteArray ba = (ui->line_X->text()).toLocal8Bit();
-
-    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
-
-    int valid;
-
-    valid = valid_input_line(100000, -100000, c_str2); //  Валидация операции
-
-    if(!valid) {
-
-        QString new_lable = ui->line_X->text();
-
-        new_lable.chop(1);
-
-        ui->line_X->setText(new_lable);
-
-    }
-}
-
-
-void MainWindow::on_line_X_selectionChanged()
-{
-
-}
-
-
 void MainWindow::on_line_X_cursorPositionChanged()
 {
     QByteArray ba = (ui->line_X->text()).toLocal8Bit();
@@ -342,6 +316,48 @@ void MainWindow::on_line_X_cursorPositionChanged()
         new_lable.chop(1);
 
         ui->line_X->setText(new_lable);
+    }
+}
+
+void MainWindow::on_line_X_from_cursorPositionChanged()
+{
+    QByteArray ba = (ui->line_X_from->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+    int valid;
+
+    valid = valid_input_line(1000000, -1000000, c_str2); //  Валидация операции
+
+    if(!valid) {
+
+        QString new_lable = ui->line_X_from->text();
+
+        new_lable.chop(1);
+
+        ui->line_X_from->setText(new_lable);
+    }
+}
+
+void MainWindow::on_line_X_to_cursorPositionChanged()
+{
+    QLineEdit *lineedit = (QLineEdit *)sender();
+
+    QByteArray ba = (ui->line_X_to->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+    int valid;
+
+    valid = valid_input_line(1000000, -1000000, c_str2); //  Валидация операции
+
+    if(!valid) {
+
+        QString new_lable = ui->line_X_to->text();
+
+        new_lable.chop(1);
+
+        lineedit->setText(new_lable);
     }
 }
 

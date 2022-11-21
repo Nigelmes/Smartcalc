@@ -36,8 +36,8 @@ private slots:
     void skobki();
     void x_button_push();
     void on_pushButton_clicked();
-    void on_line_X_from_textChanged(); // const QString &arg1
-    void on_line_X_selectionChanged();
     void on_line_X_cursorPositionChanged();
+    void on_line_X_from_cursorPositionChanged();
+    void on_line_X_to_cursorPositionChanged();
 };
 #endif // MAINWINDOW_H

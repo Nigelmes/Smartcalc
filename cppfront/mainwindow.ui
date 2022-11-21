@@ -37,6 +37,12 @@
     <property name="focusPolicy">
      <enum>Qt::ClickFocus</enum>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLabel {
   qproperty-alignment: 'AlignVCenter | AlignRight';
@@ -130,7 +136,6 @@ background-color : white;</string>
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -164,7 +169,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -198,7 +202,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -232,7 +235,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -305,7 +307,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -417,7 +418,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -467,7 +467,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -501,7 +500,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -561,7 +559,6 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <weight>50</weight>
       <italic>false</italic>
       <bold>false</bold>
       <underline>false</underline>
@@ -743,6 +740,9 @@ background-color : white;</string>
     <property name="text">
      <string>0</string>
     </property>
+    <property name="maxLength">
+     <number>9</number>
+    </property>
     <property name="readOnly">
      <bool>false</bool>
     </property>
@@ -784,6 +784,9 @@ background-color : white;</string>
     <property name="text">
      <string>-17</string>
     </property>
+    <property name="maxLength">
+     <number>9</number>
+    </property>
     <property name="readOnly">
      <bool>false</bool>
     </property>
@@ -820,6 +823,9 @@ background-color : white;</string>
     </property>
     <property name="text">
      <string>-15</string>
+    </property>
+    <property name="maxLength">
+     <number>9</number>
     </property>
     <property name="readOnly">
      <bool>false</bool>
@@ -891,6 +897,9 @@ background-color : white;</string>
     <property name="text">
      <string>17</string>
     </property>
+    <property name="maxLength">
+     <number>9</number>
+    </property>
     <property name="readOnly">
      <bool>false</bool>
     </property>
@@ -923,7 +932,7 @@ background-color : white;</string>
      <string>17</string>
     </property>
     <property name="maxLength">
-     <number>8</number>
+     <number>9</number>
     </property>
     <property name="dragEnabled">
      <bool>false</bool>

@@ -449,7 +449,7 @@ int valid_input_line(double maxval, double minval, const char * str_line) {
     int validline = TRUE;
     int len = strlen(str_line);
     char lastchar = str_line[len-1];
-    if(str_line[1] == '\0' && str_line[0] == '-') {
+    if(str_line[1] == '\0' && lastchar == '-') {
         validline = TRUE;
     } else if (lastchar == '.') {
       validline = valid_dot_line(str_line);
