@@ -39,5 +39,7 @@ private slots:
     void on_line_X_cursorPositionChanged();
     void on_line_X_from_cursorPositionChanged();
     void on_line_X_to_cursorPositionChanged();
+    void on_line_Y_from_cursorPositionChanged();
+    void on_line_Y_to_cursorPositionChanged();
 };
 #endif // MAINWINDOW_H

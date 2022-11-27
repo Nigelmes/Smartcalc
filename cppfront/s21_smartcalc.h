@@ -58,5 +58,6 @@ int valid_unar(const char * str_line);
 int valid_dot(const char * str_line);
 int valid_input_line(double maxval, double minval, const char * str_line);
 int valid_dot_line(const char * str_line);
+int super_valid(double maxval, double minval, const char * str_line);
 
 #endif  // SRC_S21_SMARTCALC_H_

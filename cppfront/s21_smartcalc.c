@@ -463,3 +463,48 @@ int valid_input_line(double maxval, double minval, const char * str_line) {
     }
     return validline;
 }
+
+int super_valid(double maxval, double minval, const char * str_line) {
+    int validline = TRUE;
+//    int len = strlen(str_line);
+    int i = 0;
+    if (str_line[0] == '-')
+        i = 1;
+    while (str_line[i]) {
+        if(is_nums(str_line[i]) != 1) {
+            validline = FALSE;
+            break;
+        }
+        i++;
+    }
+    if(validline) {
+        int validdot = valid_dot_line(str_line);
+        if(!validdot)
+            validline = FALSE;
+    }
+    if (validline) {
+        double test = atof(str_line);
+        if(minval > test || test > maxval)
+          validline = FALSE;
+    }
+    return validline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

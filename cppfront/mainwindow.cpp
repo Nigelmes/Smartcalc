@@ -45,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->push_dot, SIGNAL(clicked()), this, SLOT(digits_numbers()));
   //  Input lines
 
-  connect(ui->line_Y_from, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(on_line_X_to_cursorPositionChanged()));
-  connect(ui->line_Y_to, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(on_line_X_to_cursorPositionChanged()));
+  connect(ui->line_Y_from, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(on_line_Y_to_cursorPositionChanged()));
+  connect(ui->line_Y_to, SIGNAL(cursorPositionChanged(int,int)), this, SLOT(on_line_Y_to_cursorPositionChanged()));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -183,7 +183,7 @@ void MainWindow::equals_button() {
 
     QString new_lable;
 
-    new_lable = QString::number(res, 'g', 7);
+    new_lable = QString::number(res, 'g', 15);
 
     ui->result->setText(new_lable);
     ui->result_code->setText(new_lable);
@@ -307,15 +307,20 @@ void MainWindow::on_line_X_cursorPositionChanged()
 
     int valid;
 
-    valid = valid_input_line(1000000, -1000000, c_str2); //  Валидация операции
+    valid = super_valid(1000000, -1000000, c_str2); //  Валидация операции
 
-    if(!valid) {
+    if(valid) {
 
         QString new_lable = ui->line_X->text();
 
-        new_lable.chop(1);
+        ui->line_X_bac->setText(new_lable);
+
+    } else {
+
+        QString new_lable = ui->line_X_bac->text();
 
         ui->line_X->setText(new_lable);
+
     }
 }
 
@@ -327,37 +332,96 @@ void MainWindow::on_line_X_from_cursorPositionChanged()
 
     int valid;
 
-    valid = valid_input_line(1000000, -1000000, c_str2); //  Валидация операции
+    valid = super_valid(1000000, -1000000, c_str2); //  Валидация операции
 
-    if(!valid) {
+    if(valid) {
 
         QString new_lable = ui->line_X_from->text();
 
-        new_lable.chop(1);
+        ui->line_X_from_bac->setText(new_lable);
+
+    } else {
+
+        QString new_lable = ui->line_X_from_bac->text();
 
         ui->line_X_from->setText(new_lable);
+
     }
 }
 
 void MainWindow::on_line_X_to_cursorPositionChanged()
 {
-    QLineEdit *lineedit = (QLineEdit *)sender();
-
     QByteArray ba = (ui->line_X_to->text()).toLocal8Bit();
 
     const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
 
     int valid;
 
-    valid = valid_input_line(1000000, -1000000, c_str2); //  Валидация операции
+    valid = super_valid(1000000, -1000000, c_str2); //  Валидация операции
 
-    if(!valid) {
+    if(valid) {
 
         QString new_lable = ui->line_X_to->text();
 
-        new_lable.chop(1);
+        ui->line_X_to_bac->setText(new_lable);
 
-        lineedit->setText(new_lable);
+    } else {
+
+        QString new_lable = ui->line_X_to_bac->text();
+
+        ui->line_X_to->setText(new_lable);
+
     }
 }
 
+void MainWindow::on_line_Y_from_cursorPositionChanged()
+{
+    QByteArray ba = (ui->line_Y_from->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+    int valid;
+
+    valid = super_valid(1000000, -1000000, c_str2); //  Валидация операции
+
+    if(valid) {
+
+        QString new_lable = ui->line_Y_from->text();
+
+        ui->line_Y_from_bac->setText(new_lable);
+
+    } else {
+
+        QString new_lable = ui->line_Y_from_bac->text();
+
+        ui->line_Y_from->setText(new_lable);
+
+    }
+}
+
+
+
+void MainWindow::on_line_Y_to_cursorPositionChanged()
+{
+    QByteArray ba = (ui->line_Y_to->text()).toLocal8Bit();
+
+    const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
+
+    int valid;
+
+    valid = super_valid(1000000, -1000000, c_str2); //  Валидация операции
+
+    if(valid) {
+
+        QString new_lable = ui->line_Y_to->text();
+
+        ui->line_Y_to_bac->setText(new_lable);
+
+    } else {
+
+        QString new_lable = ui->line_Y_to_bac->text();
+
+        ui->line_Y_to->setText(new_lable);
+
+    }
+}
