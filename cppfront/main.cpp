@@ -2,7 +2,7 @@
 
 #include <QApplication>
 
-#include "s21_smartcalc.h"
+#include "../s21_smartcalc.h"
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define OPERATIONS  "+-/*M^@ABCDEFGH()"
+#define OPERATIONS  ")+-/*M^@ABCDEFGH("
 
 typedef struct Node_stack {
   double val_dub;
@@ -15,14 +15,15 @@ typedef struct Node_stack {
 } stack_type;
 
 enum truefalse {
-  TRUE,
   FALSE,
+  TRUE,
+  ERROR,
   COS = '@',
-  SIN,
-  TAN,
+  SIN = 'A',
+  TAN = 'B',
   ACOS,
-  ASIN,
-  ATAN,
+  ASIN = 'D',
+  ATAN = 'E',
   SQRT,
   LN,
   LOG = 'H'
@@ -43,5 +44,22 @@ double math_operations(stack_type **num_sta, stack_type **oper_sta);
 int unar_check(char check, const char *oper_st, int position);
 double calc(const char *calculation_src, double X);
 double start_calc(const char * src, double X);
+
+// Validation
+int last_is(char res);
+int char_counter(const char * str_line, char res);
+int in_line_start(const char * str, int str_len);
+int is_simp_oper(char oper);
+int is_nums(char num);
+int smart_bracket(const char * str_line);
+int valid_simp_oper(const char * str_line);
+int valid_func(const char * str_line);
+int valid_nums(const char * str_line);
+int valid_equals(const char * str_line);
+int valid_unar(const char * str_line);
+int valid_dot(const char * str_line);
+int valid_input_line(double maxval, double minval, const char * str_line);
+int valid_dot_line(const char * str_line);
+int super_valid(double maxval, double minval, const char * str_line);
 
 #endif  // SRC_S21_SMARTCALC_H_

@@ -5,7 +5,7 @@
 #include <QVector>
 
 extern "C" {
-   #include "s21_smartcalc.h"
+   #include "../s21_smartcalc.h"
 }
 
 QT_BEGIN_NAMESPACE
