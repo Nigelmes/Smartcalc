@@ -12,6 +12,7 @@ macx:ICON = $${PWD}/smartcalc.icns
 
 SOURCES += \
     ../s21_smartcalc.c \
+    ../s21_smartcalc_valid.c \
     credit.cpp \
     main.cpp \
     mainwindow.cpp \

@@ -90,8 +90,7 @@ START_TEST(s21_smartcalc9) {
 }
 END_TEST
 START_TEST(s21_smartcalc10) {
-  char *string =
-      "5+(1+2)*4*@(2*7.5-2)+A(@(2*5))-F(2^5)+D(0.5)+B(50)";
+  char *string = "5+(1+2)*4*@(2*7.5-2)+A(@(2*5))-F(2^5)+D(0.5)+B(50)";
   if (validator(string)) {
     double value1 = 9.74018;
     double value2 = start_calc(string, 0);
@@ -102,8 +101,7 @@ START_TEST(s21_smartcalc10) {
 END_TEST
 
 START_TEST(s21_smartcalc11) {
-  char *string =
-      "5+(1+2)*4*@(2*7.5-2)+A(@(2*5))-F(2M5)+D(0.5)+B(50)";
+  char *string = "5+(1+2)*4*@(2*7.5-2)+A(@(2*5))-F(2M5)+D(0.5)+B(50)";
   if (validator(string)) {
     double value1 = 13.9828;
     double value2 = start_calc(string, 0);

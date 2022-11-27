@@ -16,20 +16,23 @@ all: clean s21_smart_calc.a test
 s21_smart_calc.a: build_s21_smart_calc
 
 build_s21_smart_calc:
-	$(CC) -c s21_*.c
+	$(CC) -c s21_smartcalc.c
 	ar rcs $(STLIB) s21_*.o
 	ranlib $(STLIB)
+
+unit_tests.o:
+	$(CC) $(FLAGS) -c unit_tests.c -lm
 
 test: $(STLIB)
 	$(CC) $(FLAGS) unit_tests.c $(STLIB) -o $(UNIT) $(LIBS)
 	./$(UNIT)
 
-gcov_report: $(STLIB)
-	$(CC) $(FLAGS) $(GCOV) unit_tests.c s21_*.c -o $(UNIT) $(LIBS)
+gcov_report: $(STLIB) unit_tests.o
+	$(CC) $(FLAGS) $(GCOV) unit_tests.o s21_smartcalc.c -o $(UNIT) $(LIBS)
 	./$(UNIT)
 	lcov -t "test" -o test.info -c -d .
 	genhtml -o report test.info
-	open report/src/index.html
+	open report/index.html
 
 check: $(STLIB)
 	
