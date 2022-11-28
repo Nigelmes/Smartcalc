@@ -6,7 +6,7 @@ int validator(const char *str) {
   while (str[i]) {
     if (str[i] == 'Q') {
       operand++;
-      if (strchr("+-/*^M@ABCDEFGHX", str[i - 1]) == NULL)
+      if (strchr("+-/*^M@ABCDEFGHXe", str[i - 1]) == NULL)
         errcode = 1;
     }
     if (str[i] == 'Q')
@@ -49,7 +49,11 @@ int buffering_number(
     char *out) { //  Сборка числа в строку, возвращает длинну числа
   int i = 0;
   while ((src_string[i] >= '0' && src_string[i] <= '9') ||
-         src_string[i] == '.') {
+         src_string[i] == '.' || src_string[i] == 'e') {
+      if(src_string[i] == 'e'){
+          out[i] = src_string[i];
+          i++;
+      }
     out[i] = src_string[i];
     i++;
   }

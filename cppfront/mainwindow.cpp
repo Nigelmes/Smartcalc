@@ -63,17 +63,17 @@ void MainWindow::x_button_push() {
 
   int validfunc = valid_func(c_str2); //  Валидация операции
 
-  if (ui->result->text() == "0" && validfunc) {
+  if (ui->result2->text() == "0" && validfunc) {
 
-    ui->result->setText(button->text());
+    ui->result2->setText(button->text());
 
     ui->result_code->setText(button->text());
 
   } else if (validfunc) {
 
-    new_lable = ui->result->text() + button->text();
+    new_lable = ui->result2->text() + button->text();
 
-    ui->result->setText(new_lable);
+    ui->result2->setText(new_lable);
 
     new_lable = ui->result_code->text() + button->text();
 
@@ -99,17 +99,17 @@ void MainWindow::digits_numbers() {
 
     }
 
-  if (ui->result->text() == "0" && validfunc) {
+  if (ui->result2->text() == "0" && validfunc) {
 
-    ui->result->setText(button->text());
+    ui->result2->setText(button->text());
 
     ui->result_code->setText(button->text());
 
   } else if (validfunc){
 
-    new_lable = ui->result->text() + button->text();
+    new_lable = ui->result2->text() + button->text();
 
-    ui->result->setText(new_lable);
+    ui->result2->setText(new_lable);
 
     new_lable = ui->result_code->text() + button->text();
 
@@ -136,12 +136,12 @@ void MainWindow::skobki() {
   }
 
   //  Если Эррор, установка скобки запрещена
-  if (ui->result->text() == "0" && valid_line != ERROR) {
+  if (ui->result2->text() == "0" && valid_line != ERROR) {
 
 //  Запись в строку для передачи в бэкЭнд
     ui->result_code->setText(new_lable);
 
-    ui->result->setText(new_lable); //  Запись для вывода на экран
+    ui->result2->setText(new_lable); //  Запись для вывода на экран
 
   } else if (valid_line != ERROR) {
     //  Запись в строку для передачи в бэкЭнд
@@ -149,7 +149,7 @@ void MainWindow::skobki() {
         ui->result_code->text() + new_lable);
 
  //  Запись для вывода на экран
-    ui->result->setText(ui->result->text() + new_lable);
+    ui->result2->setText(ui->result2->text() + new_lable);
 
   }
 }
@@ -158,7 +158,7 @@ void MainWindow::AC_button() {
 
   QString new_lable = "0";
 
-  ui->result->setText(new_lable);
+  ui->result2->setText(new_lable);
 
   ui->result_code->setText(new_lable);
 
@@ -171,7 +171,7 @@ void MainWindow::equals_button() {
 
   const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
 
-  if (ui->result->text() != "0" && valid_equals(c_str2)) {
+  if (ui->result2->text() != "0" && valid_equals(c_str2)) {
 
     double X = ui->line_X->text().toDouble();
 
@@ -185,7 +185,7 @@ void MainWindow::equals_button() {
 
     new_lable = QString::number(res, 'g', 15);
 
-    ui->result->setText(new_lable);
+    ui->result2->setText(new_lable);
     ui->result_code->setText(new_lable);
   }
 }
@@ -196,7 +196,7 @@ void MainWindow::graf_button() {
 
   const char *c_str2 = ba.data(); //  Преобразование в str* для СИ
 
-  if (ui->result->text() != '0' && valid_equals(c_str2)) {
+  if (ui->result2->text() != '0' && valid_equals(c_str2)) {
 
     QByteArray ba = (ui->result_code->text()).toLocal8Bit();
     const char *c_str2 = ba.data();
@@ -237,16 +237,16 @@ void MainWindow::func_button() {
 
   int validfunc = valid_func(c_str2); //  Валидация операции
 
-  if (ui->result->text() == '0' && validfunc) {
+  if (ui->result2->text() == '0' && validfunc) {
 
-    ui->result->setText(button->text() + '(');
+    ui->result2->setText(button->text() + '(');
     ui->result_code->setText(button->whatsThis() + '(');
 
   } else if (validfunc){
 
-    new_lable = ui->result->text() + button->text() + '(';
+    new_lable = ui->result2->text() + button->text() + '(';
 
-    ui->result->setText(new_lable);
+    ui->result2->setText(new_lable);
 
     new_lable = ui->result_code->text() + button->whatsThis() + '(';
 
@@ -274,17 +274,17 @@ void MainWindow::simp_math_button() {
 
   }
 
-  if (ui->result->text() == '0' && valid) {
+  if (ui->result2->text() == '0' && valid) {
 
-    ui->result->setText(button->text());
+    ui->result2->setText(button->text());
 
     ui->result_code->setText(button->whatsThis());
 
   } else if(valid) {
 
-    new_lable = ui->result->text() + button->text();
+    new_lable = ui->result2->text() + button->text();
 
-    ui->result->setText(new_lable);
+    ui->result2->setText(new_lable);
 
     new_lable = ui->result_code->text() + button->whatsThis();
 
