@@ -7,8 +7,12 @@ OS = $(shell uname -s)
 
 ifeq ($(OS), Darwin)
     LIBS := -lcheck
+	APPLICATION = cppfront.app
+	OPEN = open
 else
     LIBS := -lcheck_pic -lpthread -lrt -lm -lsubunit -g
+	APPLICATION = cppfront
+	OPEN = ./
 endif
 
 all: clean s21_smart_calc.a test
@@ -34,27 +38,29 @@ gcov_report: $(STLIB) unit_tests.o
 	genhtml -o report test.info
 	open report/index.html
 
-check: $(STLIB)
-	
+clang:
+	cp ../materials/linters/.clang-format ./
+	clang-format -n *.c
+	rm .clang-format
 
 install:
 	make clean
-	mkdir build_calk
-	cd cppfront && qmake && make && make clean && rm Makefile && cd ../ && mv cppfront/cppfront.app ./build_calk
+	mkdir smartcalc
+	cd cppfront && qmake && make && make clean && rm Makefile && cd ../ && mv cppfront/$(APPLICATION) ./smartcalc
 open:
-	cd build_calk && open restest.app
+	cd smartcalc && $(OPEN)$(APPLICATION)
 
 uninstall:
-	rm -rf build_calk*
+	rm -rf smartcalc
 
 dvi:
-	open dvi.md
+	open dvi.html
 
 dist:
 	rm -rf Archive_SmartCalc_v1.0/
 	mkdir Archive_SmartCalc_v1.0/
 	mkdir Archive_SmartCalc_v1.0/src
-	mv ./build_calk/restest.app Archive_SmartCalc_v1.0/src/
+	mv ./smartcalc/$(APPLICATION) Archive_SmartCalc_v1.0/src/
 	tar cvzf Archive_SmartCalc_v1.0.tgz Archive_SmartCalc_v1.0/
 	rm -rf Archive_SmartCalc_v1.0/
 
@@ -62,9 +68,5 @@ coverage:
 	open report/index.html
 
 clean:
-	rm -rf *.o *.a *.gc* *.info test report *dSYM $(UNIT) CPPLINT.cfg Archive_SmartCalc_v1.0 *tgz build_calk
+	rm -rf *.o *.a *.gc* *.info test report *dSYM $(UNIT) Archive_SmartCalc_v1.0 *tgz smartcalc
 
-g: clean
-	git add .
-	git commit -m"develop-s21_smartcalc.c"
-	git push origin leftrana
