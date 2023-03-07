@@ -12,5 +12,5 @@ Also here are unit-testes, that make me sure, that calculator work correct, even
 If expression  uncorrect you'll get a warning
 
 
-To start smart calculator you should dounload it, then write in terminal 'make install' and app will installed in 'build_calc' folder.
+To start smart calculator you should dounload it, then write in terminal 'make install' and app will installed in 'smartcalc' folder.
 And with command 'make open' you can open it and use.
